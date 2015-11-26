@@ -48,8 +48,8 @@ webpackJsonp([0],{
 	    { path: '/', component: Main },
 	    _react2['default'].createElement(_reactRouter.IndexRoute, { component: Home }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'blogs', component: Blogs }),
-	    _react2['default'].createElement(_reactRouter.Route, { path: 'blogs/:blogRid', component: Blog }),
-	    _react2['default'].createElement(_reactRouter.Route, { path: 'blogs/:blogRid/:postId', component: BlogPost }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: 'blogs/:blogPermaLink', component: Blog }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: 'blogs/:blogPermaLink/:postId', component: BlogPost }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: '*', component: Home })
 	  )
 	), document.getElementById('content'));
@@ -1193,7 +1193,7 @@ webpackJsonp([0],{
 	            type: 'POST',
 	            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
 	            dataType: 'json',
-	            url: './app/components/blog/Blogs.php',
+	            url: '/app/components/blog/Blogs.php',
 	            error: function error(jqXHR, status, _error) {
 	                console.log('BlogActions.getBlogs - Error received, using mock data.', _error);
 	                //setTimeout(this.getBlogs, 10000); // try again every 10 seconds
@@ -1208,15 +1208,15 @@ webpackJsonp([0],{
 	        });
 	    },
 
-	    getBlogPosts: function getBlogPosts(id) {
+	    getBlogPosts: function getBlogPosts(blogPermaLink) {
 	        $.ajax({
 	            type: 'POST',
-	            contentType: 'application/json',
+	            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
 	            dataType: 'json',
-	            url: './app/components/blog/BlogPosts.php',
-	            data: JSON.stringify({
-	                blogId: 'id'
-	            }),
+	            url: '/app/components/blog/BlogPosts.php',
+	            data: {
+	                blogPermaLink: blogPermaLink
+	            },
 	            error: function error(jqXHR, status, _error2) {
 	                console.log('BlogActions.getBlogPosts - Error received, using mock data.', _error2);
 	                //setTimeout(this.getBlogPosts, 10000); // try again every 10 seconds
@@ -1564,12 +1564,12 @@ webpackJsonp([0],{
 	        return React.createElement(
 	            ListItem,
 	            {
-	                key: blogs.ID,
-	                value: blogs.PERMA_LINK,
+	                key: blogs.BLOG_ID,
+	                value: blogs.BLOG_PERMA_LINK,
 	                leftAvatar: this._getLeftAvatar(blogs),
-	                primaryText: blogs.TITLE,
-	                secondaryText: blogs.DESCRIPTION,
-	                onTouchTap: this._onTouchTap.bind(this, blogs.PERMA_LINK) },
+	                primaryText: blogs.BLOG_TITLE,
+	                secondaryText: blogs.BLOG_DESCRIPTION,
+	                onTouchTap: this._onTouchTap.bind(this, blogs.BLOG_PERMA_LINK) },
 	            children
 	        );
 	    },
@@ -1620,7 +1620,8 @@ webpackJsonp([0],{
 
 	    componentDidMount: function componentDidMount() {
 	        BlogStore.addChangeListener(this._receiveBlogPosts);
-	        BlogActions.getBlogPosts("#" + this.props.params.blogRid);
+	        console.log("blogPermaLink", this.props.params.blogPermaLink);
+	        BlogActions.getBlogPosts(this.props.params.blogPermaLink);
 	    },
 
 	    getInitialState: function getInitialState() {
