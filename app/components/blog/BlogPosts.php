@@ -3,24 +3,26 @@ require '../db/dbconfig.php';
 
 $blogPermaLink = $_POST["blogPermaLink"];
 
-$blogsQuery = "SELECT BLOG_POST_ID, b.BLOG_ID, BLOG_POST_TITLE, BLOG_POST_DESCRIPTION, BLOG_POST_CONTENT
-               FROM NICHOLAS_AZAR.BLOG_POSTS bp, NICHOLAS_AZAR.BLOGS b
+$blogsQuery = "SELECT BLOG_POST_TITLE, BLOG_POST_DESCRIPTION, BLOG_POST_CONTENT, bp.BLOG_POST_PERMA_LINK, bp.CREATE_DTTM
+               FROM BLOG_POSTS bp, BLOGS b
                WHERE b.BLOG_ID = bp.BLOG_ID
                AND b.BLOG_PERMA_LINK = ?
                AND bp.ACTIVE_FLG = 'Y'
                ORDER BY bp.CREATE_DTTM DESC";
 
 $stmt = mysqli_prepare($connection, $blogsQuery);
-if (!empty($blogPermaLink)) {
-    mysqli_stmt_bind_param($stmt, $blogPermaLink);
-}
-
+mysqli_stmt_bind_param($stmt, 's', $blogPermaLink);
 mysqli_stmt_execute($stmt);
-//echo(json_encode("statement executed"));
+mysqli_stmt_bind_result($stmt, $blogPostTitle, $blogPostDescription, $blogPostContent, $blogPostPermaLink, $createDttm);
 
-$result = mysqli_stmt_get_result($stmt);
 $rows = array();
-while ($row = mysqli_fetch_assoc($result)) {
-    $rows[] = $row;
+while (mysqli_stmt_fetch($stmt)) {
+    $rows[] = array(
+        "BLOG_POST_TITLE" => $blogPostTitle,
+        "BLOG_POST_DESCRIPTION" => $blogPostDescription,
+        "BLOG_POST_CONTENT" => $blogPostContent,
+        "BLOG_POST_PERMA_LINK" => $blogPostPermaLink,
+        "CREATE_DTTM" => $createDttm
+    );
 }
 echo(json_encode($rows));

@@ -1,7 +1,9 @@
 <?php
 require '../db/dbconfig.php';
 
-$blogsQuery = "SELECT * FROM NICHOLAS_AZAR.BLOGS WHERE ACTIVE_FLG = 'Y'";
+$blogsQuery = "SELECT *
+               FROM BLOGS
+               WHERE ACTIVE_FLG = 'Y'";
 
 $blogsResult = mysqli_query($connection, $blogsQuery);
 

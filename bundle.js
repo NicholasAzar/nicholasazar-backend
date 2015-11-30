@@ -49,7 +49,7 @@ webpackJsonp([0],{
 	    _react2['default'].createElement(_reactRouter.IndexRoute, { component: Home }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'blogs', component: Blogs }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: 'blogs/:blogPermaLink', component: Blog }),
-	    _react2['default'].createElement(_reactRouter.Route, { path: 'blogs/:blogPermaLink/:postId', component: BlogPost }),
+	    _react2['default'].createElement(_reactRouter.Route, { path: 'blogs/:blogPermaLink/:postPermaLink', component: BlogPost }),
 	    _react2['default'].createElement(_reactRouter.Route, { path: '*', component: Home })
 	  )
 	), document.getElementById('content'));
@@ -1078,12 +1078,13 @@ webpackJsonp([0],{
 	                    React.createElement(
 	                        'h1',
 	                        null,
-	                        'These are the blogs'
+	                        'These are the blogs.'
 	                    ),
 	                    React.createElement(
 	                        'p',
 	                        null,
-	                        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam commodi dolores, esse et id minus mollitia nemo, odio omnis qui rem voluptatem voluptatibus? Commodi dolorum fugit numquam quasi, similique soluta!'
+	                        'Splitting up and categorizing blogs helps you to only see the post you want! Select any blog from the selection to check out the posts.',
+	                        React.createElement('br', null)
 	                    )
 	                ),
 	                React.createElement(
@@ -1119,15 +1120,21 @@ webpackJsonp([0],{
 	var AppDispatcher = __webpack_require__(388);
 	var EventEmitter = __webpack_require__(392).EventEmitter;
 	var AppConstants = __webpack_require__(393);
+	var BlogConstants = __webpack_require__(468);
 	var _ = __webpack_require__(395);
 
 	var _blogs = [];
+	var _currentBlog = {};
 	var _blogPosts = [];
 	var _post = {};
 
 	var BlogStore = _.extend({}, EventEmitter.prototype, {
 	    getBlogs: function getBlogs() {
 	        return _blogs;
+	    },
+
+	    getCurrentBlog: function getCurrentBlog() {
+	        return _currentBlog;
 	    },
 
 	    getBlogPosts: function getBlogPosts() {
@@ -1168,6 +1175,11 @@ webpackJsonp([0],{
 	        console.log("BlogStore received BLOG_POST:", data.json);
 	        _post = data.json;
 	        BlogStore.emitChange();
+	    } else if (data.type === BlogConstants.ActionTypes.SET_CURRENT_BLOG) {
+	        // When opening a blog, set this.
+	        console.log("BlogStore receive SET_CURRENT_BLOG:", data.json);
+	        _currentBlog = data.json;
+	        BlogStore.emitChange();
 	    }
 	    return true;
 	});
@@ -1183,6 +1195,7 @@ webpackJsonp([0],{
 
 	var AppDispatcher = __webpack_require__(388);
 	var AppConstants = __webpack_require__(393);
+	var BlogConstants = __webpack_require__(468);
 	var MockBlogData = __webpack_require__(403);
 	var $ = __webpack_require__(397);
 
@@ -1208,20 +1221,30 @@ webpackJsonp([0],{
 	        });
 	    },
 
+	    setCurrentBlog: function setCurrentBlog(blog) {
+	        console.log("BlogActions setCurrentBlog", blog);
+	        AppDispatcher.handleAction({
+	            type: BlogConstants.ActionTypes.SET_CURRENT_BLOG,
+	            json: blog,
+	            error: null
+	        });
+	    },
+
 	    getBlogPosts: function getBlogPosts(blogPermaLink) {
 	        $.ajax({
 	            type: 'POST',
 	            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-	            dataType: 'json',
 	            url: '/app/components/blog/BlogPosts.php',
+	            dataType: 'json',
 	            data: {
 	                blogPermaLink: blogPermaLink
 	            },
 	            error: function error(jqXHR, status, _error2) {
-	                console.log('BlogActions.getBlogPosts - Error received, using mock data.', _error2);
+	                console.log('BlogActions.getBlogPosts - Error received, using mock data.', status, _error2);
 	                //setTimeout(this.getBlogPosts, 10000); // try again every 10 seconds
 	            },
 	            success: function success(result, status, xhr) {
+	                console.log('BlogActions.getBlogPosts - Success received.', result);
 	                AppDispatcher.handleAction({
 	                    type: AppConstants.ActionTypes.BLOG_POSTS_RESPONSE,
 	                    json: result,
@@ -1551,6 +1574,7 @@ webpackJsonp([0],{
 	    },
 
 	    _onTouchTap: function _onTouchTap(permaLink) {
+	        BlogActions.setCurrentBlog(this.props.blog);
 	        history.replaceState(null, '/blogs/' + permaLink);
 	    },
 
@@ -1558,7 +1582,7 @@ webpackJsonp([0],{
 	        var children;
 	        if (blogs.out_Own) {
 	            children = blogs.out_Own.map((function (child) {
-	                return this._createItems(child);
+	                return this._createItems(child); // on dat recursive level sheeee
 	            }).bind(this));
 	        }
 	        return React.createElement(
@@ -1615,12 +1639,13 @@ webpackJsonp([0],{
 
 	var AppConstants = __webpack_require__(393);
 
+	var history = __webpack_require__(211);
+
 	var Blog = React.createClass({
 	    displayName: 'Blog',
 
 	    componentDidMount: function componentDidMount() {
 	        BlogStore.addChangeListener(this._receiveBlogPosts);
-	        console.log("blogPermaLink", this.props.params.blogPermaLink);
 	        BlogActions.getBlogPosts(this.props.params.blogPermaLink);
 	    },
 
@@ -1635,8 +1660,8 @@ webpackJsonp([0],{
 	            blogPosts: BlogStore.getBlogPosts()
 	        });
 	    },
-	    _routeToPost: function _routeToPost(postRid) {
-	        this.transitionTo("/blogs/" + this.props.params.blogRid + "/" + postRid.substring(1));
+	    _routeToPost: function _routeToPost(BLOG_POST_PERMA_LINK) {
+	        history.replaceState(null, '/blogs/' + BlogStore.getCurrentBlog().BLOG_PERMA_LINK + '/' + BLOG_POST_PERMA_LINK);
 	    },
 
 	    render: function render() {
@@ -1649,7 +1674,7 @@ webpackJsonp([0],{
 	                React.createElement(
 	                    'h2',
 	                    { className: 'mainBlogHeader' },
-	                    'NetworkNt Blogs'
+	                    'Blogs'
 	                )
 	            ),
 	            React.createElement(
@@ -1662,8 +1687,10 @@ webpackJsonp([0],{
 	                        'div',
 	                        { className: 'blogPostsleftColumn' },
 	                        this.state.blogPosts.map(function (post) {
-	                            var date = new Date(post.createDate);
-	                            var boundClick = this._routeToPost.bind(this, post.rid);
+	                            var dateArray = post.CREATE_DTTM.split(/[- :]/);
+	                            var date = new Date(dateArray[0], dateArray[1] - 1, dateArray[2], dateArray[3], dateArray[4], dateArray[5]);
+
+	                            var boundClick = this._routeToPost.bind(this, post.BLOG_POST_PERMA_LINK);
 	                            return React.createElement(
 	                                'span',
 	                                null,
@@ -1681,7 +1708,7 @@ webpackJsonp([0],{
 	                                                { className: 'strongDate' },
 	                                                AppConstants.monthNames[date.getMonth()],
 	                                                ' ',
-	                                                date.getDay(),
+	                                                date.getDate(),
 	                                                ','
 	                                            ),
 	                                            ' ',
@@ -1697,13 +1724,13 @@ webpackJsonp([0],{
 	                                            React.createElement(
 	                                                'a',
 	                                                { onClick: boundClick },
-	                                                post.title
+	                                                post.BLOG_POST_TITLE
 	                                            )
 	                                        ),
 	                                        React.createElement(
 	                                            'p',
 	                                            { className: 'content' },
-	                                            post.content
+	                                            post.BLOG_POST_DESCRIPTION
 	                                        )
 	                                    )
 	                                ),
@@ -1725,24 +1752,14 @@ webpackJsonp([0],{
 	                            React.createElement(
 	                                'p',
 	                                null,
-	                                'In this section, you will see some information and references pertaining to the opened blog.'
-	                            ),
-	                            React.createElement(
-	                                'p',
-	                                null,
-	                                'Also, having the screen width be less then 64em will hide it, leaving reading room for mobile users only concerned with reading post content on the go.'
-	                            ),
-	                            React.createElement(
-	                                'p',
-	                                null,
-	                                'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad adipisci alias cum, cumque cupiditate ea eum itaque, minus molestias necessitatibus nihil pariatur perspiciatis quam quas quod rem repellat, sint voluptate.'
+	                                BlogStore.getCurrentBlog().BLOG_INFORMATION
 	                            )
 	                        )
 	                    )
 	                ),
 	                React.createElement(
 	                    Link,
-	                    { to: '/light-cms/blogs' },
+	                    { to: '/blogs' },
 	                    React.createElement(RaisedButton, { label: 'Back' })
 	                )
 	            )
@@ -2141,6 +2158,27 @@ webpackJsonp([0],{
 	};
 
 	module.exports = keyOf;
+
+/***/ },
+
+/***/ 468:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var keyMirror = __webpack_require__(394);
+
+	module.exports = {
+
+	  ActionTypes: keyMirror({
+	    BLOG_ADD: null,
+	    BLOG_REMOVE: null,
+	    BLOG_UPDATE: null,
+	    RECEIVE_BLOGS: null,
+	    RECEIVE_BLOG_POSTS: null,
+	    SET_CURRENT_BLOG: null
+	  })
+	};
 
 /***/ }
 
