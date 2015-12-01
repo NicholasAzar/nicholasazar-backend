@@ -32,12 +32,12 @@ webpackJsonp([0],{
 	var Main = __webpack_require__(213);
 	var Home = __webpack_require__(399);
 	var Blogs = __webpack_require__(400);
-	var Blog = __webpack_require__(405);
-	var BlogPost = __webpack_require__(406);
-	__webpack_require__(407);
+	var Blog = __webpack_require__(406);
+	var BlogPost = __webpack_require__(407);
+	__webpack_require__(408);
 	window.React = _react2['default'];
 
-	var injectTapEventPlugin = __webpack_require__(408);
+	var injectTapEventPlugin = __webpack_require__(409);
 	injectTapEventPlugin();
 
 	_reactDom2['default'].render(_react2['default'].createElement(
@@ -1020,8 +1020,8 @@ webpackJsonp([0],{
 	var React = __webpack_require__(2);
 	var FullWidthSection = __webpack_require__(268);
 	var BlogStore = __webpack_require__(401);
-	var BlogAction = __webpack_require__(402);
-	var BlogRow = __webpack_require__(404);
+	var BlogAction = __webpack_require__(403);
+	var BlogRow = __webpack_require__(405);
 
 	var _require = __webpack_require__(269);
 
@@ -1031,10 +1031,12 @@ webpackJsonp([0],{
 	var Styles = _require.Styles;
 
 	var BlogStore = __webpack_require__(401);
-	var BlogAction = __webpack_require__(402);
+	var BlogAction = __webpack_require__(403);
 	var Colors = Styles.Colors;
 	var Spacing = Styles.Spacing;
 	var Typography = Styles.Typography;
+
+	var BlogConstants = __webpack_require__(402);
 
 	var Blogs = React.createClass({
 	    displayName: 'Blogs',
@@ -1045,7 +1047,7 @@ webpackJsonp([0],{
 	        };
 	    },
 
-	    componentDidMount: function componentDidMount() {
+	    componentWillMount: function componentWillMount() {
 	        BlogStore.addChangeListener(this._onChange);
 	        BlogAction.getBlogs();
 	    },
@@ -1066,7 +1068,7 @@ webpackJsonp([0],{
 	                React.createElement(
 	                    'h2',
 	                    { className: 'mainBlogHeader' },
-	                    'Blogs'
+	                    BlogConstants.BLOG_HEADER
 	                )
 	            ),
 	            React.createElement(
@@ -1120,11 +1122,12 @@ webpackJsonp([0],{
 	var AppDispatcher = __webpack_require__(388);
 	var EventEmitter = __webpack_require__(392).EventEmitter;
 	var AppConstants = __webpack_require__(393);
-	var BlogConstants = __webpack_require__(468);
+	var BlogConstants = __webpack_require__(402);
 	var _ = __webpack_require__(395);
 
 	var _blogs = [];
 	var _currentBlog = {};
+	var _currentPost = {};
 	var _blogPosts = [];
 	var _post = {};
 
@@ -1135,6 +1138,10 @@ webpackJsonp([0],{
 
 	    getCurrentBlog: function getCurrentBlog() {
 	        return _currentBlog;
+	    },
+
+	    getCurrentPost: function getCurrentPost() {
+	        return _currentPost;
 	    },
 
 	    getBlogPosts: function getBlogPosts() {
@@ -1180,6 +1187,10 @@ webpackJsonp([0],{
 	        console.log("BlogStore receive SET_CURRENT_BLOG:", data.json);
 	        _currentBlog = data.json;
 	        BlogStore.emitChange();
+	    } else if (data.type === BlogConstants.ActionTypes.SET_CURRENT_POST) {
+	        console.log("BlogStore receive SET_CURRENT_POST:", data.json);
+	        _currentPost = data.json;
+	        BlogStore.emitChange();
 	    }
 	    return true;
 	});
@@ -1193,10 +1204,33 @@ webpackJsonp([0],{
 
 	'use strict';
 
+	var keyMirror = __webpack_require__(394);
+
+	module.exports = {
+
+	  BLOG_HEADER: 'Blogs',
+
+	  ActionTypes: keyMirror({
+	    BLOG_ADD: null,
+	    BLOG_REMOVE: null,
+	    BLOG_UPDATE: null,
+	    RECEIVE_BLOGS: null,
+	    RECEIVE_BLOG_POSTS: null,
+	    SET_CURRENT_BLOG: null,
+	    SET_CURRENT_POST: null
+	  })
+	};
+
+/***/ },
+
+/***/ 403:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
 	var AppDispatcher = __webpack_require__(388);
 	var AppConstants = __webpack_require__(393);
-	var BlogConstants = __webpack_require__(468);
-	var MockBlogData = __webpack_require__(403);
+	var BlogConstants = __webpack_require__(402);
 	var $ = __webpack_require__(397);
 
 	var BlogActions = {
@@ -1222,10 +1256,18 @@ webpackJsonp([0],{
 	    },
 
 	    setCurrentBlog: function setCurrentBlog(blog) {
-	        console.log("BlogActions setCurrentBlog", blog);
 	        AppDispatcher.handleAction({
 	            type: BlogConstants.ActionTypes.SET_CURRENT_BLOG,
 	            json: blog,
+	            error: null
+	        });
+	    },
+
+	    setCurrentBlogPost: function setCurrentBlogPost(post) {
+	        console.log("BlogActions setCurrentBlogPost", post);
+	        AppDispatcher.handleAction({
+	            type: BlogConstants.ActionTypes.SET_CURRENT_POST,
+	            json: post,
 	            error: null
 	        });
 	    },
@@ -1252,39 +1294,6 @@ webpackJsonp([0],{
 	                });
 	            }
 	        });
-	    },
-
-	    getPost: function getPost(rid) {
-	        $.ajax({
-	            type: 'POST',
-	            url: 'http://example:8080/api/rs',
-	            data: JSON.stringify({
-	                category: 'blog',
-	                name: 'getPost',
-	                readOnly: true,
-	                "data": {
-	                    host: AppConstants.host,
-	                    "@rid": rid
-	                }
-	            }),
-	            contentType: 'application/json',
-	            dataType: 'json',
-	            error: function error(jqXHR, status, _error3) {
-	                console.log('BlogActions.getBlogPosts - Error received, using mock data.', _error3);
-	                AppDispatcher.handleAction({
-	                    type: AppConstants.ActionTypes.BLOG_POST_RESPONSE,
-	                    json: MockBlogData.getPost(),
-	                    error: null
-	                });
-	            },
-	            success: function success(result, status, xhr) {
-	                AppDispatcher.handleAction({
-	                    type: AppConstants.ActionTypes.BLOG_POST_RESPONSE,
-	                    json: result,
-	                    error: null
-	                });
-	            }
-	        });
 	    }
 
 	};
@@ -1293,260 +1302,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 403:
-/***/ function(module, exports) {
-
-	"use strict";
-
-	module.exports = {
-	    getBlogs: function getBlogs() {
-	        return [{
-	            "@rid": "#33:12",
-	            "host": "example",
-	            "description": "New and improved??",
-	            "blogId": "The new blog ID",
-	            "createDate": "2015-05-22T00:22:37.607",
-	            "$$hashKey": "object:241"
-	        }, {
-	            "@rid": "#33:1",
-	            "host": "example",
-	            "description": "sdgasdgag",
-	            "blogId": "asdga",
-	            "createDate": "2015-05-02T12:52:20.121",
-	            "out_HasPost": ["#36:9", "#36:10", "#36:11"],
-	            "out_Own": [{
-	                "@rid": "#33:8",
-	                "host": "example",
-	                "description": "fgjdfgjdj",
-	                "blogId": "hdfgjd",
-	                "createDate": "2015-05-02T15:57:28.789",
-	                "in_Own": ["#33:1"],
-	                "out_Own": [{
-	                    "@rid": "#33:9",
-	                    "host": "example",
-	                    "description": "dfhsdfhsdf",
-	                    "blogId": "dgsdfhs",
-	                    "createDate": "2015-05-02T19:15:53.034",
-	                    "in_Own": ["#33:8"],
-	                    "out_Own": [{
-	                        "@rid": "#33:11",
-	                        "host": "example",
-	                        "description": "asdgasdg",
-	                        "blogId": "sdfhsdfhs",
-	                        "createDate": "2015-05-02T21:22:25.813",
-	                        "in_Own": ["#33:9"]
-	                    }]
-	                }, {
-	                    "@rid": "#33:10",
-	                    "host": "example",
-	                    "description": "dgasdgasdg",
-	                    "blogId": "asdsdfhgasdg",
-	                    "createDate": "2015-05-02T21:19:58.117",
-	                    "in_Own": ["#33:8"]
-	                }],
-	                "blog": {
-	                    "@rid": "#33:1",
-	                    "host": "example",
-	                    "description": "sdgasdgag",
-	                    "blogId": "asdga",
-	                    "createDate": "2015-05-02T12:52:20.121",
-	                    "out_HasPost": ["#36:9", "#36:10", "#36:11"]
-	                }
-	            }],
-	            "$$hashKey": "object:242"
-	        }, {
-	            "@rid": "#33:2",
-	            "host": "example",
-	            "description": "asdgasdg",
-	            "blogId": "asdgasdg",
-	            "createDate": "2015-05-02T12:52:23.067",
-	            "$$hashKey": "object:243"
-	        }, {
-	            "@rid": "#33:3",
-	            "host": "example",
-	            "description": "sdgasdga",
-	            "blogId": "asdgasdga",
-	            "createDate": "2015-05-02T12:52:25.675",
-	            "$$hashKey": "object:244"
-	        }, {
-	            "@rid": "#33:7",
-	            "host": "example",
-	            "description": "dfgjdfgjdj",
-	            "blogId": "dfgjdfgjdfgj",
-	            "createDate": "2015-05-02T12:52:43.251",
-	            "$$hashKey": "object:245"
-	        }, {
-	            "@rid": "#33:5",
-	            "host": "example",
-	            "description": "jfdgdfjhdfgjh",
-	            "blogId": "dfgjdsdfsdfh",
-	            "createDate": "2015-05-02T12:52:36.714",
-	            "$$hashKey": "object:246"
-	        }];
-	    },
-
-	    getBlogPosts: function getBlogPosts() {
-	        return [{
-	            "createUserId": "stevehu",
-	            "postId": "GT3ZmMIxTxiE8WzGudooQA",
-	            "createRid": "#14:0",
-	            "rid": "#36:11",
-	            "title": "TEst",
-	            "content": "This is the post - Edited -5/21/2015",
-	            "parentId": "asdga",
-	            "createDate": "2015-05-02T14:20:13.512"
-	        }, {
-	            "createUserId": "stevehu",
-	            "postId": "uGRKOudDR4e3EGwrNYi6cQ",
-	            "createRid": "#14:0",
-	            "rid": "#36:10",
-	            "title": "jdfgjdfgjd",
-	            "content": "fgjdfgj",
-	            "parentId": "asdga",
-	            "createDate": "2015-05-02T12:57:12.315"
-	        }, {
-	            "createUserId": "stevehu",
-	            "postId": "FY4pUJ1CSzSURhihDlLg5g",
-	            "createRid": "#14:0",
-	            "rid": "#36:9",
-	            "title": "sdfhsdfhsdf",
-	            "content": "hsdfhsdfhsdf",
-	            "parentId": "asdga",
-	            "createDate": "2015-05-02T12:55:51.351"
-	        }];
-	    },
-	    getPost: function getPost() {
-	        return {
-	            "createUserId": "stevehu",
-	            "postId": "GT3ZmMIxTxiE8WzGudooQA",
-	            "createRid": "#14:0",
-	            "rid": "#36:11",
-	            "title": "TEst",
-	            "content": "This is the post - Edited -5/21/2015",
-	            "parentId": "asdga",
-	            "createDate": "2015-05-02T14:20:13.512"
-	        };
-	    },
-	    init: function init() {
-	        localStorage.clear();
-	        localStorage.setItem('blogs', JSON.stringify([{
-	            "@rid": "#33:12",
-	            "host": "example",
-	            "description": "New and improved??",
-	            "blogId": "The new blog ID",
-	            "createDate": "2015-05-22T00:22:37.607",
-	            "$$hashKey": "object:241"
-	        }, {
-	            "@rid": "#33:1",
-	            "host": "example",
-	            "description": "sdgasdgag",
-	            "blogId": "asdga",
-	            "createDate": "2015-05-02T12:52:20.121",
-	            "out_HasPost": ["#36:9", "#36:10", "#36:11"],
-	            "out_Own": [{
-	                "@rid": "#33:8",
-	                "host": "example",
-	                "description": "fgjdfgjdj",
-	                "blogId": "hdfgjd",
-	                "createDate": "2015-05-02T15:57:28.789",
-	                "in_Own": ["#33:1"],
-	                "out_Own": [{
-	                    "@rid": "#33:9",
-	                    "host": "example",
-	                    "description": "dfhsdfhsdf",
-	                    "blogId": "dgsdfhs",
-	                    "createDate": "2015-05-02T19:15:53.034",
-	                    "in_Own": ["#33:8"],
-	                    "out_Own": [{
-	                        "@rid": "#33:11",
-	                        "host": "example",
-	                        "description": "asdgasdg",
-	                        "blogId": "sdfhsdfhs",
-	                        "createDate": "2015-05-02T21:22:25.813",
-	                        "in_Own": ["#33:9"]
-	                    }]
-	                }, {
-	                    "@rid": "#33:10",
-	                    "host": "example",
-	                    "description": "dgasdgasdg",
-	                    "blogId": "asdsdfhgasdg",
-	                    "createDate": "2015-05-02T21:19:58.117",
-	                    "in_Own": ["#33:8"]
-	                }],
-	                "blog": {
-	                    "@rid": "#33:1",
-	                    "host": "example",
-	                    "description": "sdgasdgag",
-	                    "blogId": "asdga",
-	                    "createDate": "2015-05-02T12:52:20.121",
-	                    "out_HasPost": ["#36:9", "#36:10", "#36:11"]
-	                }
-	            }],
-	            "$$hashKey": "object:242"
-	        }, {
-	            "@rid": "#33:2",
-	            "host": "example",
-	            "description": "asdgasdg",
-	            "blogId": "asdgasdg",
-	            "createDate": "2015-05-02T12:52:23.067",
-	            "$$hashKey": "object:243"
-	        }, {
-	            "@rid": "#33:3",
-	            "host": "example",
-	            "description": "sdgasdga",
-	            "blogId": "asdgasdga",
-	            "createDate": "2015-05-02T12:52:25.675",
-	            "$$hashKey": "object:244"
-	        }, {
-	            "@rid": "#33:7",
-	            "host": "example",
-	            "description": "dfgjdfgjdj",
-	            "blogId": "dfgjdfgjdfgj",
-	            "createDate": "2015-05-02T12:52:43.251",
-	            "$$hashKey": "object:245"
-	        }, {
-	            "@rid": "#33:5",
-	            "host": "example",
-	            "description": "jfdgdfjhdfgjh",
-	            "blogId": "dfgjdsdfsdfh",
-	            "createDate": "2015-05-02T12:52:36.714",
-	            "$$hashKey": "object:246"
-	        }]));
-	        localStorage.setItem('blogPosts', JSON.stringify([{
-	            "createUserId": "stevehu",
-	            "postId": "GT3ZmMIxTxiE8WzGudooQA",
-	            "createRid": "#14:0",
-	            "rid": "#36:11",
-	            "title": "TEst",
-	            "content": "This is the post - Edited -5/21/2015",
-	            "parentId": "asdga",
-	            "createDate": "2015-05-02T14:20:13.512"
-	        }, {
-	            "createUserId": "stevehu",
-	            "postId": "uGRKOudDR4e3EGwrNYi6cQ",
-	            "createRid": "#14:0",
-	            "rid": "#36:10",
-	            "title": "jdfgjdfgjd",
-	            "content": "fgjdfgj",
-	            "parentId": "asdga",
-	            "createDate": "2015-05-02T12:57:12.315"
-	        }, {
-	            "createUserId": "stevehu",
-	            "postId": "FY4pUJ1CSzSURhihDlLg5g",
-	            "createRid": "#14:0",
-	            "rid": "#36:9",
-	            "title": "sdfhsdfhsdf",
-	            "content": "hsdfhsdfhsdf",
-	            "parentId": "asdga",
-	            "createDate": "2015-05-02T12:55:51.351"
-	        }]));
-	        return JSON.parse(localStorage.getItem('blogs'));
-	    }
-	};
-
-/***/ },
-
-/***/ 404:
+/***/ 405:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1559,7 +1315,7 @@ webpackJsonp([0],{
 	var Styles = _require.Styles;
 	var Avatar = _require.Avatar;
 
-	var BlogActions = __webpack_require__(402);
+	var BlogActions = __webpack_require__(403);
 	var Colors = Styles.Colors;
 	var Spacing = Styles.Spacing;
 	var Typography = Styles.Typography;
@@ -1582,7 +1338,7 @@ webpackJsonp([0],{
 	        var children;
 	        if (blogs.out_Own) {
 	            children = blogs.out_Own.map((function (child) {
-	                return this._createItems(child); // on dat recursive level sheeee
+	                return this._createItems(child);
 	            }).bind(this));
 	        }
 	        return React.createElement(
@@ -1590,7 +1346,7 @@ webpackJsonp([0],{
 	            {
 	                key: blogs.BLOG_ID,
 	                value: blogs.BLOG_PERMA_LINK,
-	                leftAvatar: this._getLeftAvatar(blogs),
+	                leftAvatar: this._getLeftAvatar(blogs.BLOG_POST_COUNT),
 	                primaryText: blogs.BLOG_TITLE,
 	                secondaryText: blogs.BLOG_DESCRIPTION,
 	                onTouchTap: this._onTouchTap.bind(this, blogs.BLOG_PERMA_LINK) },
@@ -1598,11 +1354,7 @@ webpackJsonp([0],{
 	        );
 	    },
 
-	    _getLeftAvatar: function _getLeftAvatar(blogs) {
-	        var count = "0";
-	        if (blogs.out_HasPost != null && blogs.out_HasPost.length > 0) {
-	            count = blogs.out_HasPost.length.toString();
-	        }
+	    _getLeftAvatar: function _getLeftAvatar(count) {
 	        return React.createElement(
 	            'div',
 	            { className: 'blogLeftAvatar' },
@@ -1615,7 +1367,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 405:
+/***/ 406:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1628,7 +1380,7 @@ webpackJsonp([0],{
 
 	var FullWidthSection = __webpack_require__(268);
 	var BlogStore = __webpack_require__(401);
-	var BlogActions = __webpack_require__(402);
+	var BlogActions = __webpack_require__(403);
 
 	var _require2 = __webpack_require__(269);
 
@@ -1638,7 +1390,7 @@ webpackJsonp([0],{
 	var RaisedButton = _require2.RaisedButton;
 
 	var AppConstants = __webpack_require__(393);
-
+	var BlogConstants = __webpack_require__(402);
 	var history = __webpack_require__(211);
 
 	var Blog = React.createClass({
@@ -1660,8 +1412,10 @@ webpackJsonp([0],{
 	            blogPosts: BlogStore.getBlogPosts()
 	        });
 	    },
-	    _routeToPost: function _routeToPost(BLOG_POST_PERMA_LINK) {
-	        history.replaceState(null, '/blogs/' + BlogStore.getCurrentBlog().BLOG_PERMA_LINK + '/' + BLOG_POST_PERMA_LINK);
+	    _routeToPost: function _routeToPost(post) {
+	        console.log("routeToPost", post);
+	        BlogActions.setCurrentBlogPost(post);
+	        history.replaceState(null, '/blogs/' + BlogStore.getCurrentBlog().BLOG_PERMA_LINK + '/' + post.BLOG_POST_PERMA_LINK);
 	    },
 
 	    render: function render() {
@@ -1674,7 +1428,7 @@ webpackJsonp([0],{
 	                React.createElement(
 	                    'h2',
 	                    { className: 'mainBlogHeader' },
-	                    'Blogs'
+	                    BlogConstants.BLOG_HEADER
 	                )
 	            ),
 	            React.createElement(
@@ -1690,7 +1444,7 @@ webpackJsonp([0],{
 	                            var dateArray = post.CREATE_DTTM.split(/[- :]/);
 	                            var date = new Date(dateArray[0], dateArray[1] - 1, dateArray[2], dateArray[3], dateArray[4], dateArray[5]);
 
-	                            var boundClick = this._routeToPost.bind(this, post.BLOG_POST_PERMA_LINK);
+	                            var boundClick = this._routeToPost.bind(this, post);
 	                            return React.createElement(
 	                                'span',
 	                                null,
@@ -1747,7 +1501,7 @@ webpackJsonp([0],{
 	                            React.createElement(
 	                                'h1',
 	                                null,
-	                                'Blog Information'
+	                                BlogStore.getCurrentBlog().BLOG_TITLE
 	                            ),
 	                            React.createElement(
 	                                'p',
@@ -1771,44 +1525,44 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 406:
+/***/ 407:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(2);
+
+	var _require = __webpack_require__(160);
+
+	var Link = _require.Link;
+
 	var FullWidthSection = __webpack_require__(268);
 	var BlogStore = __webpack_require__(401);
-	var BlogAction = __webpack_require__(402);
+	var BlogActions = __webpack_require__(403);
 
-	var _require = __webpack_require__(269);
+	var _require2 = __webpack_require__(269);
 
-	var Paper = _require.Paper;
+	var Paper = _require2.Paper;
+	var RaisedButton = _require2.RaisedButton;
 
 	var AppConstants = __webpack_require__(393);
+	var BlogConstants = __webpack_require__(402);
+	var marked = __webpack_require__(458);
 
 	var BlogPostView = React.createClass({
 	    displayName: 'BlogPostView',
 
-	    getInitialState: function getInitialState() {
-	        return {
-	            post: {}
-	        };
-	    },
-
-	    componentDidMount: function componentDidMount() {
-	        BlogStore.addChangeListener(this._receivePost);
-	        BlogAction.getPost("#" + this.props.params.postRid);
-	    },
-
-	    _receivePost: function _receivePost() {
+	    componentWillMount: function componentWillMount() {
+	        console.log("this.props", this.props);
 	        this.setState({
-	            post: BlogStore.getPost()
+	            post: BlogStore.getCurrentPost()
 	        });
 	    },
 
 	    render: function render() {
-	        var date = new Date(this.state.post.createDate);
+	        var dateArray = this.state.post.CREATE_DTTM.split(/[- :]/);
+	        var date = new Date(dateArray[0], dateArray[1] - 1, dateArray[2], dateArray[3], dateArray[4], dateArray[5]);
+
 	        return React.createElement(
 	            'div',
 	            null,
@@ -1818,7 +1572,7 @@ webpackJsonp([0],{
 	                React.createElement(
 	                    'h2',
 	                    { className: 'mainBlogHeader' },
-	                    'NetworkNt Blogs'
+	                    BlogConstants.BLOG_HEADER
 	                )
 	            ),
 	            React.createElement(
@@ -1830,22 +1584,18 @@ webpackJsonp([0],{
 	                    React.createElement(
 	                        'div',
 	                        { className: 'title' },
-	                        this.state.post.title
+	                        this.state.post.BLOG_POST_TITLE
 	                    ),
 	                    React.createElement(
 	                        'div',
 	                        { className: 'date' },
 	                        AppConstants.monthNames[date.getMonth()],
 	                        ' ',
-	                        date.getDay(),
+	                        date.getDate(),
 	                        ', ',
 	                        date.getFullYear()
 	                    ),
-	                    React.createElement(
-	                        'div',
-	                        { className: 'content' },
-	                        this.state.post.content
-	                    )
+	                    React.createElement('div', { className: 'content', dangerouslySetInnerHTML: { __html: marked(this.state.post.BLOG_POST_CONTENT) } })
 	                ),
 	                React.createElement(
 	                    'div',
@@ -1857,14 +1607,19 @@ webpackJsonp([0],{
 	                        React.createElement(
 	                            'span',
 	                            { className: 'author' },
-	                            this.state.post.createUserId
+	                            'Nicholas Azar'
 	                        )
 	                    ),
 	                    React.createElement(
 	                        'p',
 	                        null,
-	                        '(Info about the author): Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium alias aspernatur dignissimos dolorem, eos, eum iste iusto molestiae mollitia non quidem, quis quisquam sed sint vitae? Error hic necessitatibus nostrum!'
+	                        'Just having fun.'
 	                    )
+	                ),
+	                React.createElement(
+	                    Link,
+	                    { to: "/blogs/" + this.props.params.blogPermaLink },
+	                    React.createElement(RaisedButton, { label: 'Back' })
 	                )
 	            )
 	        );
@@ -1876,26 +1631,26 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 407:
+/***/ 408:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 408:
+/***/ 409:
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function injectTapEventPlugin () {
 	  __webpack_require__(32).injection.injectEventPluginsByName({
-	    "TapEventPlugin":       __webpack_require__(409)
+	    "TapEventPlugin":       __webpack_require__(410)
 	  });
 	};
 
 
 /***/ },
 
-/***/ 409:
+/***/ 410:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1923,10 +1678,10 @@ webpackJsonp([0],{
 	var EventPluginUtils = __webpack_require__(34);
 	var EventPropagators = __webpack_require__(74);
 	var SyntheticUIEvent = __webpack_require__(88);
-	var TouchEventUtils = __webpack_require__(410);
+	var TouchEventUtils = __webpack_require__(411);
 	var ViewportMetrics = __webpack_require__(39);
 
-	var keyOf = __webpack_require__(411);
+	var keyOf = __webpack_require__(412);
 	var topLevelTypes = EventConstants.topLevelTypes;
 
 	var isStartish = EventPluginUtils.isStartish;
@@ -2071,7 +1826,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 410:
+/***/ 411:
 /***/ function(module, exports) {
 
 	/**
@@ -2120,7 +1875,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 411:
+/***/ 412:
 /***/ function(module, exports) {
 
 	/**
@@ -2158,27 +1913,6 @@ webpackJsonp([0],{
 	};
 
 	module.exports = keyOf;
-
-/***/ },
-
-/***/ 468:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var keyMirror = __webpack_require__(394);
-
-	module.exports = {
-
-	  ActionTypes: keyMirror({
-	    BLOG_ADD: null,
-	    BLOG_REMOVE: null,
-	    BLOG_UPDATE: null,
-	    RECEIVE_BLOGS: null,
-	    RECEIVE_BLOG_POSTS: null,
-	    SET_CURRENT_BLOG: null
-	  })
-	};
 
 /***/ }
 
