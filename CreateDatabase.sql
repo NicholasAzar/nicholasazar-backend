@@ -26,6 +26,10 @@ CREATE TABLE nichhlnr_main.BLOG_POSTS(
 SELECT * FROM BLOGS;
 SELECT * FROM BLOG_POSTS;
 
-INSERT INTO nichhlnr_main.BLOGS (BLOG_TITLE, BLOG_DESCRIPTION, BLOG_PERMA_LINK, BLOG_INFORMATION, CREATE_DTTM) VALUES ('My First Blog', 'Just a quick test', 'my-first-blog', 'This is just a test to see how my blog will be displayed when opened. This text is what I stored in the BLOG_INFORMATION column in the database and I hope to put it on the right panel when this blog is opened. Hopefully it''s possible without a ton of fixes...', NULL);
-INSERT INTO nichhlnr_main.BLOG_POSTS(BLOG_ID, BLOG_POST_TITLE, BLOG_POST_DESCRIPTION, BLOG_POST_CONTENT, BLOG_POST_PERMA_LINK, CREATE_DTTM) VALUES (1, 'My First Post', 'This is a quick description of my first post', 'What is special about this post is that its my first, which I will now explain in this content', 'my-first-post', NULL);
+INSERT INTO nichhlnr_main.BLOGS (BLOG_TITLE, BLOG_DESCRIPTION, BLOG_PERMA_LINK, BLOG_INFORMATION, CREATE_DTTM)
+VALUES ('My First Blog', 'Some place to hold my posts while I find out what I''m using this for', 'my-first-blog', 'In this blog I''m going to be including all my first posts that I don''t know where else to put. Read some if you get curious :)', NULL);
+INSERT INTO nichhlnr_main.BLOG_POSTS(BLOG_ID, BLOG_POST_TITLE, BLOG_POST_DESCRIPTION, BLOG_POST_CONTENT, BLOG_POST_PERMA_LINK, CREATE_DTTM) VALUES (1, 'My First Post!', 'Hello World! Finally got a blog going... This is exciting!!',
+'What is special about this post is that its my first. Now to those who don''t care, I don''t blame you.
+What I want for this post to be is an example of what _can be done_.',
+'my-first-post', NULL);
 COMMIT;
