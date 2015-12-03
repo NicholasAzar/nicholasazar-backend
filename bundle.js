@@ -32,8 +32,8 @@ webpackJsonp([0],{
 	var Main = __webpack_require__(213);
 	var Home = __webpack_require__(399);
 	var Blogs = __webpack_require__(400);
-	var Blog = __webpack_require__(406);
-	var BlogPost = __webpack_require__(407);
+	var Blog = __webpack_require__(405);
+	var BlogPost = __webpack_require__(406);
 	__webpack_require__(408);
 	window.React = _react2['default'];
 
@@ -1021,7 +1021,7 @@ webpackJsonp([0],{
 	var FullWidthSection = __webpack_require__(268);
 	var BlogStore = __webpack_require__(401);
 	var BlogAction = __webpack_require__(403);
-	var BlogRow = __webpack_require__(405);
+	var BlogRow = __webpack_require__(404);
 
 	var _require = __webpack_require__(269);
 
@@ -1048,7 +1048,7 @@ webpackJsonp([0],{
 	    },
 
 	    componentWillMount: function componentWillMount() {
-	        BlogStore.addChangeListener(this._onChange);
+	        BlogStore.addChangeListener(this._onChange, BlogConstants.ActionTypes.GET_BLOGS);
 	        BlogAction.getBlogs();
 	    },
 
@@ -1152,16 +1152,16 @@ webpackJsonp([0],{
 	        return _post;
 	    },
 
-	    emitChange: function emitChange() {
-	        this.emit(AppConstants.ChangeEvents.BLOG_CHANGE_EVENT);
+	    emitChange: function emitChange(event) {
+	        this.emit(event);
 	    },
 
-	    addChangeListener: function addChangeListener(callback) {
-	        this.on(AppConstants.ChangeEvents.BLOG_CHANGE_EVENT, callback);
+	    addChangeListener: function addChangeListener(callback, event) {
+	        this.on(event, callback);
 	    },
 
-	    removeChangeListener: function removeChangeListener(callback) {
-	        this.removeListener(AppConstants.ChangeEvents.BLOG_CHANGE_EVENT, callback);
+	    removeChangeListener: function removeChangeListener(callback, event) {
+	        this.removeListener(event, callback);
 	    }
 
 	});
@@ -1170,27 +1170,33 @@ webpackJsonp([0],{
 	    console.log("BlogStore payload:", payload);
 	    var data = payload.action;
 	    if (data == null) return;
-	    if (data.type === AppConstants.ActionTypes.BLOGS_RESPONSE) {
-	        console.log("BlogStore received BLOGS:", data.json);
+	    if (data.type === BlogConstants.ActionTypes.GET_BLOGS) {
+	        console.log("BlogStore received GET_BLOGS:", data.json);
 	        _blogs = data.json;
-	        BlogStore.emitChange();
-	    } else if (data.type === AppConstants.ActionTypes.BLOG_POSTS_RESPONSE) {
-	        console.log("BlogStore received BLOG_POSTS:", data.json);
+	        BlogStore.emitChange(BlogConstants.ActionTypes.GET_BLOGS);
+	    } else if (data.type === BlogConstants.ActionTypes.GET_BLOG_POSTS) {
+	        console.log("BlogStore received GET_BLOG_POSTS:", data.json);
 	        _blogPosts = data.json;
-	        BlogStore.emitChange();
-	    } else if (data.type === AppConstants.ActionTypes.BLOG_POST_RESPONSE) {
-	        console.log("BlogStore received BLOG_POST:", data.json);
+	        BlogStore.emitChange(BlogConstants.ActionTypes.GET_BLOG_POSTS);
+	    } else if (data.type === BlogConstants.ActionTypes.GET_CURRENT_POST) {
+	        console.log("BlogStore received GET_CURRENT_POST:", data.json);
 	        _post = data.json;
-	        BlogStore.emitChange();
+	        BlogStore.emitChange(BlogConstants.ActionTypes.GET_CURRENT_POST);
+	    } else if (data.type === BlogConstants.ActionTypes.GET_CURRENT_BLOG) {
+	        console.log("BlogStore received GET_CURRENT_BLOG:", data.json);
+	        if (data.json && data.json.length > 0) {
+	            _currentBlog = data.json[0];
+	        }
+	        BlogStore.emitChange(BlogConstants.ActionTypes.GET_CURRENT_BLOG);
 	    } else if (data.type === BlogConstants.ActionTypes.SET_CURRENT_BLOG) {
 	        // When opening a blog, set this.
 	        console.log("BlogStore receive SET_CURRENT_BLOG:", data.json);
 	        _currentBlog = data.json;
-	        BlogStore.emitChange();
+	        BlogStore.emitChange(BlogConstants.ActionTypes.SET_CURRENT_BLOG);
 	    } else if (data.type === BlogConstants.ActionTypes.SET_CURRENT_POST) {
 	        console.log("BlogStore receive SET_CURRENT_POST:", data.json);
 	        _currentPost = data.json;
-	        BlogStore.emitChange();
+	        BlogStore.emitChange(BlogConstants.ActionTypes.SET_CURRENT_POST);
 	    }
 	    return true;
 	});
@@ -1208,17 +1214,19 @@ webpackJsonp([0],{
 
 	module.exports = {
 
-	  BLOG_HEADER: 'Blogs',
+		BLOG_HEADER: 'Blogs',
 
-	  ActionTypes: keyMirror({
-	    BLOG_ADD: null,
-	    BLOG_REMOVE: null,
-	    BLOG_UPDATE: null,
-	    RECEIVE_BLOGS: null,
-	    RECEIVE_BLOG_POSTS: null,
-	    SET_CURRENT_BLOG: null,
-	    SET_CURRENT_POST: null
-	  })
+		ActionTypes: keyMirror({
+			BLOG_ADD: null,
+			BLOG_REMOVE: null,
+			BLOG_UPDATE: null,
+			GET_BLOGS: null,
+			GET_BLOG_POSTS: null,
+			SET_CURRENT_BLOG: null,
+			SET_CURRENT_POST: null,
+			GET_CURRENT_BLOG: null,
+			GET_CURRENT_POST: null
+		})
 	};
 
 /***/ },
@@ -1235,74 +1243,114 @@ webpackJsonp([0],{
 
 	var BlogActions = {
 
-	    getBlogs: function getBlogs() {
-	        $.ajax({
-	            type: 'POST',
-	            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-	            dataType: 'json',
-	            url: '/app/components/blog/Blogs.php',
-	            error: function error(jqXHR, status, _error) {
-	                console.log('BlogActions.getBlogs - Error received, using mock data.', _error);
-	                //setTimeout(this.getBlogs, 10000); // try again every 10 seconds
-	            },
-	            success: function success(result, status, xhr) {
-	                AppDispatcher.handleAction({
-	                    type: AppConstants.ActionTypes.BLOGS_RESPONSE,
-	                    json: result,
-	                    error: null
-	                });
-	            }
-	        });
-	    },
+		getBlogs: function getBlogs() {
+			$.ajax({
+				type: 'POST',
+				contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+				dataType: 'json',
+				url: '/app/components/blog/Blogs.php',
+				error: function error(jqXHR, status, _error) {
+					console.log('BlogActions.getBlogs - Error received, using mock data.', _error);
+					//setTimeout(this.getBlogs, 10000); // try again every 10 seconds
+				},
+				success: function success(result, status, xhr) {
+					AppDispatcher.handleAction({
+						type: BlogConstants.ActionTypes.GET_BLOGS,
+						json: result,
+						error: null
+					});
+				}
+			});
+		},
 
-	    setCurrentBlog: function setCurrentBlog(blog) {
-	        AppDispatcher.handleAction({
-	            type: BlogConstants.ActionTypes.SET_CURRENT_BLOG,
-	            json: blog,
-	            error: null
-	        });
-	    },
+		getCurrentBlog: function getCurrentBlog(blogPermaLink) {
+			$.ajax({
+				type: 'POST',
+				contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+				dataType: 'json',
+				url: '/app/components/blog/Blog.php',
+				data: {
+					blogPermaLink: blogPermaLink
+				},
+				error: function error(jqXHR, status, _error2) {},
+				success: function success(result, status, xhr) {
+					AppDispatcher.handleAction({
+						type: BlogConstants.ActionTypes.GET_CURRENT_BLOG,
+						json: result,
+						error: null
+					});
+				}
+			});
+		},
 
-	    setCurrentBlogPost: function setCurrentBlogPost(post) {
-	        console.log("BlogActions setCurrentBlogPost", post);
-	        AppDispatcher.handleAction({
-	            type: BlogConstants.ActionTypes.SET_CURRENT_POST,
-	            json: post,
-	            error: null
-	        });
-	    },
+		setCurrentBlog: function setCurrentBlog(blog) {
+			AppDispatcher.handleAction({
+				type: BlogConstants.ActionTypes.SET_CURRENT_BLOG,
+				json: blog,
+				error: null
+			});
+		},
 
-	    getBlogPosts: function getBlogPosts(blogPermaLink) {
-	        $.ajax({
-	            type: 'POST',
-	            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-	            url: '/app/components/blog/BlogPosts.php',
-	            dataType: 'json',
-	            data: {
-	                blogPermaLink: blogPermaLink
-	            },
-	            error: function error(jqXHR, status, _error2) {
-	                console.log('BlogActions.getBlogPosts - Error received, using mock data.', status, _error2);
-	                //setTimeout(this.getBlogPosts, 10000); // try again every 10 seconds
-	            },
-	            success: function success(result, status, xhr) {
-	                console.log('BlogActions.getBlogPosts - Success received.', result);
-	                AppDispatcher.handleAction({
-	                    type: AppConstants.ActionTypes.BLOG_POSTS_RESPONSE,
-	                    json: result,
-	                    error: null
-	                });
-	            }
-	        });
-	    }
+		setCurrentBlogPost: function setCurrentBlogPost(post) {
+			console.log("BlogActions setCurrentBlogPost", post);
+			AppDispatcher.handleAction({
+				type: BlogConstants.ActionTypes.SET_CURRENT_POST,
+				json: post,
+				error: null
+			});
+		},
 
+		getCurrentBlogPost: function getCurrentBlogPost(blogPermaLink, postPermaLink) {
+			$.ajax({
+				type: 'POST',
+				contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+				dataType: 'json',
+				url: '/app/components/blog/BlogPost.php',
+				data: {
+					blogPermaLink: blogPermaLink,
+					postPermaLink: postPermaLink
+				},
+				error: function error(jqXHR, status, _error3) {},
+				success: function success(result, status, xhr) {
+					AppDispatcher.handleAction({
+						type: BlogConstants.ActionTypes.GET_CURRENT_POST,
+						json: result,
+						error: null
+					});
+				}
+			});
+		},
+
+		getBlogPosts: function getBlogPosts(blogPermaLink) {
+			$.ajax({
+				type: 'POST',
+				contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+				url: '/app/components/blog/BlogPosts.php',
+				dataType: 'json',
+				data: {
+					blogPermaLink: blogPermaLink
+				},
+				error: function error(jqXHR, status, _error4) {
+					console.log('BlogActions.getBlogPosts - Error received, using mock data.', status, _error4);
+					//setTimeout(this.getBlogPosts, 10000); // try again every 10 seconds
+				},
+				success: function success(result, status, xhr) {
+					console.log('BlogActions.getBlogPosts - Success received.', result);
+					AppDispatcher.handleAction({
+						type: BlogConstants.ActionTypes.GET_BLOG_POSTS,
+						json: result,
+						error: null
+					});
+				}
+			});
+		}
 	};
 
 	module.exports = BlogActions;
 
 /***/ },
 
-/***/ 405:
+/***/ 404:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1367,7 +1415,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 406:
+/***/ 405:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1396,26 +1444,42 @@ webpackJsonp([0],{
 	var Blog = React.createClass({
 	    displayName: 'Blog',
 
-	    componentDidMount: function componentDidMount() {
-	        BlogStore.addChangeListener(this._receiveBlogPosts);
+	    componentWillMount: function componentWillMount() {
+	        BlogStore.addChangeListener(this._receiveBlogPosts, BlogConstants.ActionTypes.GET_BLOG_POSTS);
 	        BlogActions.getBlogPosts(this.props.params.blogPermaLink);
+
+	        if (Object.keys(BlogStore.getCurrentBlog()).length === 0) {
+	            console.log("Current blog empty, fetching");
+	            BlogStore.addChangeListener(this._receiveCurrentBlog, BlogConstants.ActionTypes.GET_CURRENT_BLOG);
+	            BlogActions.getCurrentBlog(this.props.params.blogPermaLink);
+	        }
 	    },
 
 	    getInitialState: function getInitialState() {
 	        return {
-	            blogPosts: []
+	            blogPosts: [],
+	            currentBlog: {}
 	        };
 	    },
 
 	    _receiveBlogPosts: function _receiveBlogPosts() {
+	        console.log("Receive Blog Posts");
 	        this.setState({
 	            blogPosts: BlogStore.getBlogPosts()
 	        });
 	    },
+
+	    _receiveCurrentBlog: function _receiveCurrentBlog() {
+	        console.log("Receive current blog", BlogStore.getCurrentBlog());
+	        this.setState({
+	            currentBlog: BlogStore.getCurrentBlog()
+	        });
+	    },
+
 	    _routeToPost: function _routeToPost(post) {
 	        console.log("routeToPost", post);
 	        BlogActions.setCurrentBlogPost(post);
-	        history.replaceState(null, '/blogs/' + BlogStore.getCurrentBlog().BLOG_PERMA_LINK + '/' + post.BLOG_POST_PERMA_LINK);
+	        history.replaceState(null, '/blogs/' + this.state.currentBlog.BLOG_PERMA_LINK + '/' + post.BLOG_POST_PERMA_LINK);
 	    },
 
 	    render: function render() {
@@ -1501,12 +1565,12 @@ webpackJsonp([0],{
 	                            React.createElement(
 	                                'h1',
 	                                null,
-	                                BlogStore.getCurrentBlog().BLOG_TITLE
+	                                this.state.currentBlog.BLOG_TITLE
 	                            ),
 	                            React.createElement(
 	                                'p',
 	                                null,
-	                                BlogStore.getCurrentBlog().BLOG_INFORMATION
+	                                this.state.currentBlog.BLOG_INFORMATION
 	                            )
 	                        )
 	                    )
@@ -1525,7 +1589,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 407:
+/***/ 406:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1547,13 +1611,19 @@ webpackJsonp([0],{
 
 	var AppConstants = __webpack_require__(393);
 	var BlogConstants = __webpack_require__(402);
-	var marked = __webpack_require__(458);
+	var marked = __webpack_require__(407);
 
 	var BlogPostView = React.createClass({
 	    displayName: 'BlogPostView',
 
 	    componentWillMount: function componentWillMount() {
 	        console.log("this.props", this.props);
+
+	        if (BlogStore.getCurrentPost()) {
+	            BlogActions.getCurrentBlog(this.props.params.blogPermaLink);
+	            BlogActions.getCurrentBlogPost(this.props.params.blogPermaLink, this.props.params.postPermaLink);
+	        }
+
 	        this.setState({
 	            post: BlogStore.getCurrentPost()
 	        });
