@@ -1,3 +1,44 @@
+@font-face {
+  font-family: 'Roboto';
+  src: url("/app/assets/stylesheets/fonts/Roboto-Light.ttf"); }
+
+/*
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://example.com/MaterialIcons-Regular.eot);
+  src: local('Material Icons'),
+  local('MaterialIcons-Regular'),
+  url(https://example.com/MaterialIcons-Regular.woff2) format('woff2'),
+  url(https://example.com/MaterialIcons-Regular.woff) format('woff'),
+  url(https://example.com/MaterialIcons-Regular.ttf) format('truetype');
+}
+*/
+html {
+  font-family: 'Roboto', sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%; }
+
+body {
+  font-size: 15px;
+  line-height: 20px;
+  margin: 0;
+  background-color: #e0e0e0; }
+
+.header {
+  background-color: #81c784;
+  overflow: hidden;
+  width: 100%;
+  padding: 55px 0;
+  margin: 0;
+  text-align: center;
+  line-height: 20px; }
+  .header .headerContent {
+    font-size: 30px;
+    color: rgba(255, 255, 255, 0.87);
+    font-weight: 300; }
+
 .Grid {
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -113,48 +154,8 @@
         -ms-flex: 0 0 25%;
             flex: 0 0 25%; } }
 
-@font-face {
-  font-family: 'Roboto';
-  src: url("/app/assets/stylesheets/fonts/Roboto-Light.ttf"); }
-
-/*
-@font-face {
-  font-family: 'Material Icons';
-  font-style: normal;
-  font-weight: 400;
-  src: url(https://example.com/MaterialIcons-Regular.eot);
-  src: local('Material Icons'),
-  local('MaterialIcons-Regular'),
-  url(https://example.com/MaterialIcons-Regular.woff2) format('woff2'),
-  url(https://example.com/MaterialIcons-Regular.woff) format('woff'),
-  url(https://example.com/MaterialIcons-Regular.ttf) format('truetype');
-}
-*/
-html {
-  font-family: 'Roboto', sans-serif;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%; }
-
-body {
-  font-size: 15px;
-  line-height: 20px;
-  margin: 0;
-  background-color: #EFEFEF; }
-
 .blogs {
-  background-color: #EFEFEF; }
-
-.blogHeader {
-  background-color: #81c784;
-  overflow: hidden;
-  width: 100%;
-  padding: 55px 0;
-  margin: 0;
-  text-align: center; }
-  .blogHeader .mainBlogHeader {
-    font-size: 30px;
-    color: rgba(255, 255, 255, 0.87);
-    font-weight: 300; }
+  background-color: #e0e0e0; }
 
 .blogsSection {
   display: -webkit-flex;
@@ -163,15 +164,12 @@ body {
   -webkit-flex-direction: row;
       -ms-flex-direction: row;
           flex-direction: row;
-  margin: 30px;
   padding-bottom: 40px;
-  margin-bottom: 10px; }
+  margin: 30px 30px 10px; }
   .blogsSection .blogsDescription {
     width: 30%;
-    padding: 20px;
-    padding-left: 0;
-    padding-top: 0;
-    font-family: Roboto;
+    padding: 0 20px 20px 0;
+    font-family: Roboto, sans-serif;
     color: #777;
     line-height: 1.2; }
     .blogsSection .blogsDescription h1 {
@@ -185,7 +183,6 @@ body {
         -ms-flex-positive: 1;
             flex-grow: 1; }
     .blogsSection .blogsList .blogLeftAvatar {
-      border-color: #81c784;
       border: 3px solid #81c784;
       border-radius: 25%;
       font-weight: 300;
@@ -207,7 +204,7 @@ body {
     display: none; } }
 
 .blogRoot {
-  background-color: #EFEFEF;
+  background-color: #e0e0e0;
   padding: 20px; }
 
 .blogPostsRoot {
@@ -219,7 +216,7 @@ body {
   -webkit-flex-direction: row;
       -ms-flex-direction: row;
           flex-direction: row;
-  font-family: Roboto; }
+  font-family: Roboto, sans-serif; }
   .blogPostsRoot .blogPostsPaper {
     margin-bottom: 15px;
     padding: 10px; }
@@ -280,7 +277,7 @@ body {
   padding-left: 20px;
   padding-top: 10px; }
   .blogPostsRightColumn .blogInfo {
-    font-family: Roboto;
+    font-family: Roboto, sans-serif;
     color: #777; }
     .blogPostsRightColumn .blogInfo h1 {
       margin-bottom: 20px;
@@ -296,7 +293,7 @@ body {
     max-width: 100%; } }
 
 .blogPostRoot {
-  background-color: #EFEFEF;
+  background-color: #e0e0e0;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -334,9 +331,8 @@ body {
     width: 96.7%;
     margin-top: 30px;
     line-height: 1.2;
-    padding: 30px;
-    padding-top: 0;
-    font-family: Roboto;
+    padding: 0 30px 30px;
+    font-family: Roboto, sans-serif;
     color: #999; }
     .blogPostRoot .aboutTheAuthor h1 {
       margin-bottom: 20px;
@@ -348,7 +344,7 @@ body {
       font-size: 1em; }
 
 .loginRoot {
-  background-color: #EFEFEF;
+  background-color: #e0e0e0;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -396,3 +392,92 @@ body {
         -webkit-justify-content: center;
             -ms-flex-pack: center;
                 justify-content: center; }
+
+.leftNavRoot {
+  cursor: pointer;
+  font-size: 24px;
+  color: white;
+  line-height: 64px;
+  font-weight: 300;
+  background-color: #81c784;
+  padding-left: 24px;
+  padding-top: 0;
+  margin-bottom: 0; }
+
+.mainRoot {
+  position: relative;
+  margin: 64px 0 120px 0;
+  overflow: hidden; }
+
+.mainFooter {
+  background-color: #424242;
+  text-align: center;
+  position: fixed;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 120px;
+  z-index: -10; }
+  .mainFooter .footerText {
+    top: 50%;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: rgba(255, 255, 255, 0.54); }
+
+.appBarRightIcon {
+  color: rgba(255, 255, 255, 0.9); }
+
+.mainAppBar {
+  background-color: #81c784;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px; }
+
+.contactRoot {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-grow: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #e0e0e0; }
+
+.contactPaper {
+  margin: 20px; }
+
+.contactFormFields {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  margin: 20px; }
+
+.contactFormButtons {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px; }

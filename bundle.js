@@ -13,61 +13,78 @@ webpackJsonp([0],{
 
 	'use strict';
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	var _interopRequireDefault = __webpack_require__(2)['default'];
 
-	var _react = __webpack_require__(2);
+	var _react = __webpack_require__(3);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(159);
+	var _reactDom = __webpack_require__(160);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _reactRouter = __webpack_require__(160);
+	var _reactRouter = __webpack_require__(161);
 
-	var _componentsCommonHistory = __webpack_require__(211);
+	var _componentsCommonHistory = __webpack_require__(212);
 
 	var _componentsCommonHistory2 = _interopRequireDefault(_componentsCommonHistory);
 
-	var Main = __webpack_require__(213);
-	var Home = __webpack_require__(399);
-	var Blogs = __webpack_require__(400);
-	var Blog = __webpack_require__(405);
-	var BlogPost = __webpack_require__(406);
-	__webpack_require__(408);
+	var Main = __webpack_require__(214);
+	var Home = __webpack_require__(404);
+	var Blogs = __webpack_require__(406);
+	var Blog = __webpack_require__(411);
+	var BlogPost = __webpack_require__(424);
+	var Contact = __webpack_require__(426);
+	__webpack_require__(427);
 	window.React = _react2['default'];
 
-	var injectTapEventPlugin = __webpack_require__(409);
+	var injectTapEventPlugin = __webpack_require__(428);
 	injectTapEventPlugin();
 
 	_reactDom2['default'].render(_react2['default'].createElement(
-	  _reactRouter.Router,
-	  { history: _componentsCommonHistory2['default'] },
-	  _react2['default'].createElement(
-	    _reactRouter.Route,
-	    { path: '/', component: Main },
-	    _react2['default'].createElement(_reactRouter.IndexRoute, { component: Home }),
-	    _react2['default'].createElement(_reactRouter.Route, { path: 'blogs', component: Blogs }),
-	    _react2['default'].createElement(_reactRouter.Route, { path: 'blogs/:blogPermaLink', component: Blog }),
-	    _react2['default'].createElement(_reactRouter.Route, { path: 'blogs/:blogPermaLink/:postPermaLink', component: BlogPost }),
-	    _react2['default'].createElement(_reactRouter.Route, { path: '*', component: Home })
-	  )
+		_reactRouter.Router,
+		{ history: _componentsCommonHistory2['default'] },
+		_react2['default'].createElement(
+			_reactRouter.Route,
+			{ path: '/', component: Main },
+			_react2['default'].createElement(_reactRouter.IndexRoute, { component: Home }),
+			_react2['default'].createElement(_reactRouter.Route, { path: 'blogs', component: Blogs }),
+			_react2['default'].createElement(_reactRouter.Route, { path: 'blogs/:blogPermaLink', component: Blog }),
+			_react2['default'].createElement(_reactRouter.Route, { path: 'blogs/:blogPermaLink/:postPermaLink', component: BlogPost }),
+			_react2['default'].createElement(_reactRouter.Route, { path: 'contact', component: Contact }),
+			_react2['default'].createElement(_reactRouter.Route, { path: '*', component: Home })
+		)
 	), document.getElementById('content'));
 
 /***/ },
 
-/***/ 211:
+/***/ 2:
+/***/ function(module, exports) {
+
+	"use strict";
+
+	exports.default = function (obj) {
+	  return obj && obj.__esModule ? obj : {
+	    default: obj
+	  };
+	};
+
+	exports.__esModule = true;
+
+/***/ },
+
+/***/ 212:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(2)['default'];
 
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _historyLibCreateBrowserHistory = __webpack_require__(212);
+	var _historyLibCreateBrowserHistory = __webpack_require__(213);
 
 	var _historyLibCreateBrowserHistory2 = _interopRequireDefault(_historyLibCreateBrowserHistory);
 
@@ -76,7 +93,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 212:
+/***/ 213:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -87,19 +104,19 @@ webpackJsonp([0],{
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _invariant = __webpack_require__(165);
+	var _invariant = __webpack_require__(166);
 
 	var _invariant2 = _interopRequireDefault(_invariant);
 
-	var _Actions = __webpack_require__(166);
+	var _Actions = __webpack_require__(167);
 
-	var _ExecutionEnvironment = __webpack_require__(167);
+	var _ExecutionEnvironment = __webpack_require__(168);
 
-	var _DOMUtils = __webpack_require__(168);
+	var _DOMUtils = __webpack_require__(169);
 
-	var _DOMStateStorage = __webpack_require__(169);
+	var _DOMStateStorage = __webpack_require__(170);
 
-	var _createDOMHistory = __webpack_require__(170);
+	var _createDOMHistory = __webpack_require__(171);
 
 	var _createDOMHistory2 = _interopRequireDefault(_createDOMHistory);
 
@@ -251,38 +268,38 @@ webpackJsonp([0],{
 
 	exports['default'] = createBrowserHistory;
 	module.exports = exports['default'];
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ },
 
-/***/ 213:
+/***/ 214:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(2);
+	var React = __webpack_require__(3);
 
-	var AppBar = __webpack_require__(214);
-	var Colors = __webpack_require__(234);
-	var Typography = __webpack_require__(233);
-	var ThemeManager = __webpack_require__(258);
-	var LightRawTheme = __webpack_require__(255);
-	var IconButton = __webpack_require__(235);
-
-	var FullWidthSection = __webpack_require__(268);
-
-	var LeftNavMenu = __webpack_require__(386);
-
-	var Theme = __webpack_require__(398);
-
-	var history = __webpack_require__(211);
+	var AppBar = __webpack_require__(215);
+	var ThemeManager = __webpack_require__(259);
+	var IconButton = __webpack_require__(236);
+	var LeftNavMenu = __webpack_require__(269);
+	var Theme = __webpack_require__(403);
+	var history = __webpack_require__(212);
 
 	var Main = React.createClass({
 	    displayName: 'Main',
 
+	    childContextTypes: {
+	        muiTheme: React.PropTypes.object
+	    },
+	    getChildContext: function getChildContext() {
+	        return {
+	            muiTheme: ThemeManager.getMuiTheme(Theme)
+	        };
+	    },
+
 	    _userMenuTouched: function _userMenuTouched(e, value) {
-	        console.log("Main._rightMenuChange", value);
-	        history.replaceState(null, '/' + value._store.props.value);
+	        history.replaceState(null, '/contact');
 	    },
 
 	    render: function render() {
@@ -293,14 +310,14 @@ webpackJsonp([0],{
 	            null,
 	            React.createElement(
 	                IconButton,
-	                { iconClassName: 'material-icons', iconStyle: styles.userIcon, onItemTouchTap: this._userMenuTouched },
+	                { iconClassName: 'material-icons', iconStyle: { color: 'rgba(255, 255, 255, 0.90)' }, onClick: this._userMenuTouched },
 	                'chat'
 	            )
 	        );
 
 	        return React.createElement(
 	            'div',
-	            { style: styles.parent },
+	            { className: 'mainRoot' },
 	            React.createElement(AppBar, { title: 'Nicholas Azar', onLeftIconButtonTouchTap: this.showSideBar, iconElementRight: rightMenu, zDepth: 0, style: styles.topMenu }),
 	            React.createElement(LeftNavMenu, { ref: 'leftNav' }),
 	            React.createElement(
@@ -309,11 +326,11 @@ webpackJsonp([0],{
 	                this.props.children
 	            ),
 	            React.createElement(
-	                FullWidthSection,
-	                { style: styles.footer },
+	                'div',
+	                { className: 'mainFooter' },
 	                React.createElement(
 	                    'p',
-	                    { style: styles.p },
+	                    { className: 'footerText' },
 	                    'Copyright Nicholas Azar - 2015'
 	                )
 	            )
@@ -321,51 +338,12 @@ webpackJsonp([0],{
 	    },
 	    getStyles: function getStyles() {
 	        return {
-	            parent: {
-	                position: 'relative',
-	                margin: '64px 0 120px 0',
-	                overflow: 'hidden'
-	            },
-	            footer: {
-	                backgroundColor: Colors.grey800,
-	                textAlign: 'center',
-	                position: 'fixed',
-	                left: '0px',
-	                right: '0px',
-	                bottom: '0px',
-	                height: '120px',
-	                zIndex: '-10'
-	            },
-	            userIcon: {
-	                color: 'rgba(255, 255, 255, 0.90)'
-	            },
-	            a: {
-	                color: Colors.red
-	            },
-	            p: {
-	                margin: '0 auto',
-	                padding: '0',
-	                color: Colors.lightWhite
-	            },
-	            rightMenuButton: {
-	                display: 'flex',
-	                alignItems: 'center',
-	                justifyContent: 'center',
-	                backgroundColor: Colors.transparent,
-	                color: Typography.textFullWhite,
-	                margin: 0,
-	                paddingTop: 6
-	            },
 	            topMenu: {
-	                backgroundColor: Colors.green300,
 	                position: 'fixed',
 	                top: '0px',
 	                left: '0px',
 	                right: '0px',
 	                height: '64px'
-	            },
-	            subheaderMenuItem: {
-	                backgroundColor: Colors.green300
 	            }
 	        };
 	    },
@@ -378,125 +356,22 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 268:
+/***/ 269:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(2);
+	var React = __webpack_require__(3);
+	var LeftNav = __webpack_require__(270);
 
-	var _require = __webpack_require__(269);
+	var MenuStore = __webpack_require__(288);
+	var MenuActions = __webpack_require__(401);
 
-	var ClearFix = _require.ClearFix;
-	var Mixins = _require.Mixins;
-	var Styles = _require.Styles;
-	var StylePropable = Mixins.StylePropable;
-	var StyleResizable = Mixins.StyleResizable;
-
-	var DesktopGutter = Styles.Spacing.desktopGutter;
-
-	var FullWidthSection = React.createClass({
-	    displayName: 'FullWidthSection',
-
-	    mixins: [StylePropable, StyleResizable],
-
-	    propTypes: {
-	        'useContent': React.PropTypes.bool,
-	        'contentType': React.PropTypes.string,
-	        'contentStyle': React.PropTypes.object
-	    },
-
-	    getDefaultProps: function getDefaultProps() {
-	        return {
-	            useContent: false,
-	            contentType: 'div'
-	        };
-	    },
-
-	    getStyles: function getStyles() {
-	        return {
-	            root: {
-	                padding: DesktopGutter + 'px',
-	                boxSizing: 'border-box'
-	            },
-	            content: {
-	                maxWidth: '1200px',
-	                margin: '0 auto'
-	            },
-	            rootWhenSmall: {
-	                paddingTop: DesktopGutter * 2 + 'px',
-	                paddingBottom: DesktopGutter * 2 + 'px'
-	            },
-	            rootWhenLarge: {
-	                paddingTop: DesktopGutter * 3 + 'px',
-	                paddingBottom: DesktopGutter * 3 + 'px'
-	            }
-	        };
-	    },
-
-	    render: function render() {
-	        var styles = this.getStyles();
-	        var _props = this.props;
-	        var style = _props.style;
-	        var useContent = _props.useContent;
-	        var contentType = _props.contentType;
-	        var contentStyle = _props.contentStyle;
-
-	        var content;
-
-	        if (useContent) {
-	            content = React.createElement(contentType, { style: this.mergeAndPrefix(styles.content, contentStyle) }, this.props.children);
-	        } else {
-	            content = this.props.children;
-	        }
-
-	        return React.createElement(
-	            ClearFix,
-	            { style: this.mergeAndPrefix(styles.root, style, this.isDeviceSize(StyleResizable.statics.Sizes.SMALL) && styles.rootWhenSmall, this.isDeviceSize(StyleResizable.statics.Sizes.LARGE) && styles.rootWhenLarge) },
-	            content
-	        );
-	    }
-	});
-
-	module.exports = FullWidthSection;
-
-/***/ },
-
-/***/ 386:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(2);
-	var Router = __webpack_require__(160);
-	var LeftNav = __webpack_require__(336);
-
-	var MenuStore = __webpack_require__(387);
-	var MenuActions = __webpack_require__(396);
-
-	var Colors = __webpack_require__(234);
-	var Typography = __webpack_require__(233);
-	var Spacing = __webpack_require__(257);
-
-	var history = __webpack_require__(211);
-
-	var ThemeManager = __webpack_require__(258);
+	var history = __webpack_require__(212);
 
 	var LeftNavMenu = React.createClass({
 	    displayName: 'LeftNavMenu',
 
-	    contextTypes: {
-	        router: React.PropTypes.func,
-	        muiTheme: React.PropTypes.object
-	    },
-
-	    componentWillMount: function componentWillMount() {
-	        //this.context.muiTheme.setComponentThemes({
-	        //    menuSubheader: {
-	        //        textColor: Colors.green300
-	        //    }
-	        //});
-	    },
 	    getInitialState: function getInitialState() {
 	        return {
 	            menu: []
@@ -517,53 +392,28 @@ webpackJsonp([0],{
 
 	    getStyles: function getStyles() {
 	        return {
-	            root: {
-	                cursor: 'pointer',
-	                fontSize: '24px',
-	                color: Typography.textFullWhite,
-	                lineHeight: Spacing.desktopKeylineIncrement + 'px',
-	                fontWeight: Typography.fontWeightLight,
-	                backgroundColor: Colors.green300,
-	                paddingLeft: Spacing.desktopGutter,
-	                paddingTop: '0px',
-	                marginBottom: '0px'
-	            },
-	            leftNav: {
-	                "SubheaderMenuItem backgroundColor": Colors.green400
-	            }
-
+	            root: {}
 	        };
 	    },
 
 	    render: function render() {
-	        var style = this.getStyles();
 	        var header = React.createElement(
 	            'div',
-	            { style: style.root, onTouchTap: this.onHeaderClick },
+	            { className: 'leftNavRoot', onTouchTap: this.onHeaderClick },
 	            'Nicholas Azar'
 	        );
 
 	        return React.createElement(LeftNav, {
 	            ref: 'leftNav',
-	            style: style.leftNav,
 	            docked: false,
 	            isInitiallyOpen: false,
 	            header: header,
 	            menuItems: this.state.menu,
-	            selectedIndex: this.getSelectedIndex(),
 	            onChange: this.onLeftNavChange });
 	    },
 
 	    toggle: function toggle() {
 	        this.refs.leftNav.toggle();
-	    },
-
-	    getSelectedIndex: function getSelectedIndex() {
-	        var currentItem;
-	        for (var i = this.state.menu.length - 1; i >= 0; i--) {
-	            currentItem = this.state.menu[i];
-	            if (currentItem.route) return i;
-	        }
 	    },
 
 	    onLeftNavChange: function onLeftNavChange(e, key, payload) {
@@ -579,17 +429,17 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 387:
+/***/ 288:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var AppDispatcher = __webpack_require__(388);
-	var EventEmitter = __webpack_require__(392).EventEmitter;
-	var AppConstants = __webpack_require__(393);
-	var _ = __webpack_require__(395);
+	var AppDispatcher = __webpack_require__(289);
+	var EventEmitter = __webpack_require__(293).EventEmitter;
+	var AppConstants = __webpack_require__(294);
+	var _ = __webpack_require__(296);
 
-	var _require = __webpack_require__(269);
+	var _require = __webpack_require__(297);
 
 	var MenuItem = _require.MenuItem;
 
@@ -601,21 +451,21 @@ webpackJsonp([0],{
 	    },
 
 	    getDefaultMenu: function getDefaultMenu() {
-	        return [{ type: MenuItem.Types.SUBHEADER, text: 'Menu' }, { route: 'blogs', text: 'Blog' }, { route: 'contactMe', text: 'Contact Me' }, { type: MenuItem.Types.SUBHEADER, text: 'External' }, {
+	        return [{ type: MenuItem.Types.SUBHEADER, text: 'Menu' }, { route: 'blogs', text: 'Blog' }, { route: 'contact', text: 'Contact Me' }, { type: MenuItem.Types.SUBHEADER, text: 'Find Me' }, {
 	            type: MenuItem.Types.LINK,
 	            payload: 'https://github.com/NicholasAzar',
 	            text: 'GitHub'
 	        }, {
 	            type: MenuItem.Types.LINK,
-	            payload: 'https://github.com/NicholasAzar',
+	            payload: 'https://ca.linkedin.com/in/nicholas-azar-74532933',
 	            text: 'LinkedIn'
 	        }, {
 	            type: MenuItem.Types.LINK,
-	            payload: 'https://github.com/NicholasAzar',
+	            payload: 'https://www.facebook.com/FDDoSD',
 	            text: 'Facebook'
 	        }, {
 	            type: MenuItem.Types.LINK,
-	            payload: 'https://github.com/NicholasAzar',
+	            payload: 'https://twitter.com/NicholasAzar',
 	            text: 'Twitter'
 	        }];
 	    },
@@ -654,13 +504,13 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 388:
+/***/ 289:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Dispatcher = __webpack_require__(389).Dispatcher;
-	var assign = __webpack_require__(40);
+	var Dispatcher = __webpack_require__(290).Dispatcher;
+	var assign = __webpack_require__(41);
 
 	var AppDispatcher = assign(new Dispatcher(), {
 	    handleAction: function handleAction(action) {
@@ -675,7 +525,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 393:
+/***/ 294:
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -695,7 +545,7 @@ webpackJsonp([0],{
 	 */
 	'use strict';
 
-	var keyMirror = __webpack_require__(394);
+	var keyMirror = __webpack_require__(295);
 
 	var host = "example";
 
@@ -763,7 +613,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 394:
+/***/ 295:
 /***/ function(module, exports) {
 
 	/**
@@ -823,7 +673,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 396:
+/***/ 401:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -831,9 +681,9 @@ webpackJsonp([0],{
 	 */
 	'use strict';
 
-	var AppDispatcher = __webpack_require__(388);
-	var AppConstants = __webpack_require__(393);
-	var $ = __webpack_require__(397);
+	var AppDispatcher = __webpack_require__(289);
+	var AppConstants = __webpack_require__(294);
+	var $ = __webpack_require__(402);
 
 	var ActionTypes = AppConstants.ActionTypes;
 
@@ -854,7 +704,6 @@ webpackJsonp([0],{
 	            contentType: 'application/json',
 	            dataType: 'json',
 	            error: function error(jqXHR, status, _error) {
-	                console.log('MenuActions.getMenu error', _error);
 	                var errorText = jqXHR.responseText;
 	                AppDispatcher.handleAction({
 	                    type: ActionTypes.MENU_RESPONSE,
@@ -863,7 +712,6 @@ webpackJsonp([0],{
 	                });
 	            },
 	            success: function success(result, status, xhr) {
-	                console.log("MenuActions.getMenu success", result);
 	                AppDispatcher.handleAction({
 	                    type: ActionTypes.MENU_RESPONSE,
 	                    json: result,
@@ -876,52 +724,52 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 398:
+/***/ 403:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Colors = __webpack_require__(234);
-	var Typography = __webpack_require__(233);
-	var ColorManipulator = __webpack_require__(256);
-	var Spacing = __webpack_require__(257);
+	var Colors = __webpack_require__(235);
+	var Typography = __webpack_require__(234);
+	var ColorManipulator = __webpack_require__(257);
+	var Spacing = __webpack_require__(258);
 
 	module.exports = {
-	  spacing: Spacing,
-	  fontFamily: 'Roboto, sans-serif',
-	  palette: {
-	    primary1Color: Colors.green500,
-	    primary2Color: Colors.green700,
-	    primary3Color: Colors.lightBlack,
-	    accent1Color: Colors.pinkA200,
-	    accent2Color: Colors.grey100,
-	    accent3Color: Colors.grey500,
-	    textColor: Colors.darkBlack,
-	    alternateTextColor: Colors.white,
-	    canvasColor: Colors.white,
-	    borderColor: Colors.grey300,
-	    disabledColor: ColorManipulator.fade(Colors.darkBlack, 0.3),
-	    menuSubheader: {
-	      textColor: Colors.green300
-	    }
-	  }
+		spacing: Spacing,
+		fontFamily: 'Roboto, sans-serif',
+		palette: {
+			primary1Color: Colors.green300,
+			primary2Color: Colors.green500,
+			primary3Color: Colors.lightBlack,
+			accent1Color: Colors.pinkA200,
+			accent2Color: Colors.grey100,
+			accent3Color: Colors.grey500,
+			textColor: Colors.darkBlack,
+			alternateTextColor: Colors.white,
+			canvasColor: Colors.white,
+			borderColor: Colors.grey300,
+			disabledColor: ColorManipulator.fade(Colors.darkBlack, 0.3),
+			menuSubheader: {
+				textColor: Colors.green500
+			}
+		}
 	};
 
 /***/ },
 
-/***/ 399:
+/***/ 404:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(2);
+	var React = __webpack_require__(3);
 
-	var _require = __webpack_require__(269);
+	var _require = __webpack_require__(297);
 
 	var RaisedButton = _require.RaisedButton;
 	var Styles = _require.Styles;
 
-	var FullWidthSection = __webpack_require__(268);
+	var FullWidthSection = __webpack_require__(405);
 	var Colors = Styles.Colors;
 	var Spacing = Styles.Spacing;
 	var Typography = Styles.Typography;
@@ -1012,31 +860,115 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 400:
+/***/ 405:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(2);
-	var FullWidthSection = __webpack_require__(268);
-	var BlogStore = __webpack_require__(401);
-	var BlogAction = __webpack_require__(403);
-	var BlogRow = __webpack_require__(404);
+	var React = __webpack_require__(3);
 
-	var _require = __webpack_require__(269);
+	var _require = __webpack_require__(297);
+
+	var ClearFix = _require.ClearFix;
+	var Mixins = _require.Mixins;
+	var Styles = _require.Styles;
+	var StylePropable = Mixins.StylePropable;
+	var StyleResizable = Mixins.StyleResizable;
+
+	var DesktopGutter = Styles.Spacing.desktopGutter;
+
+	var FullWidthSection = React.createClass({
+	    displayName: 'FullWidthSection',
+
+	    mixins: [StylePropable, StyleResizable],
+
+	    propTypes: {
+	        'useContent': React.PropTypes.bool,
+	        'contentType': React.PropTypes.string,
+	        'contentStyle': React.PropTypes.object
+	    },
+
+	    getDefaultProps: function getDefaultProps() {
+	        return {
+	            useContent: false,
+	            contentType: 'div'
+	        };
+	    },
+
+	    getStyles: function getStyles() {
+	        return {
+	            root: {
+	                padding: DesktopGutter + 'px',
+	                boxSizing: 'border-box'
+	            },
+	            content: {
+	                maxWidth: '1200px',
+	                margin: '0 auto'
+	            },
+	            rootWhenSmall: {
+	                paddingTop: DesktopGutter * 2 + 'px',
+	                paddingBottom: DesktopGutter * 2 + 'px'
+	            },
+	            rootWhenLarge: {
+	                paddingTop: DesktopGutter * 3 + 'px',
+	                paddingBottom: DesktopGutter * 3 + 'px'
+	            }
+	        };
+	    },
+
+	    render: function render() {
+	        var styles = this.getStyles();
+	        var _props = this.props;
+	        var style = _props.style;
+	        var useContent = _props.useContent;
+	        var contentType = _props.contentType;
+	        var contentStyle = _props.contentStyle;
+
+	        var content;
+
+	        if (useContent) {
+	            content = React.createElement(contentType, { style: this.mergeAndPrefix(styles.content, contentStyle) }, this.props.children);
+	        } else {
+	            content = this.props.children;
+	        }
+
+	        return React.createElement(
+	            ClearFix,
+	            { style: this.mergeAndPrefix(styles.root, style, this.isDeviceSize(StyleResizable.statics.Sizes.SMALL) && styles.rootWhenSmall, this.isDeviceSize(StyleResizable.statics.Sizes.LARGE) && styles.rootWhenLarge) },
+	            content
+	        );
+	    }
+	});
+
+	module.exports = FullWidthSection;
+
+/***/ },
+
+/***/ 406:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(3);
+	var FullWidthSection = __webpack_require__(405);
+	var BlogStore = __webpack_require__(407);
+	var BlogAction = __webpack_require__(409);
+	var BlogRow = __webpack_require__(410);
+
+	var _require = __webpack_require__(297);
 
 	var List = _require.List;
 	var ListItem = _require.ListItem;
 	var Paper = _require.Paper;
 	var Styles = _require.Styles;
 
-	var BlogStore = __webpack_require__(401);
-	var BlogAction = __webpack_require__(403);
+	var BlogStore = __webpack_require__(407);
+	var BlogAction = __webpack_require__(409);
 	var Colors = Styles.Colors;
 	var Spacing = Styles.Spacing;
 	var Typography = Styles.Typography;
 
-	var BlogConstants = __webpack_require__(402);
+	var BlogConstants = __webpack_require__(408);
 
 	var Blogs = React.createClass({
 	    displayName: 'Blogs',
@@ -1064,10 +996,10 @@ webpackJsonp([0],{
 	            { className: 'blogs' },
 	            React.createElement(
 	                'div',
-	                { className: 'blogHeader' },
+	                { className: 'header' },
 	                React.createElement(
 	                    'h2',
-	                    { className: 'mainBlogHeader' },
+	                    { className: 'headerContent' },
 	                    BlogConstants.BLOG_HEADER
 	                )
 	            ),
@@ -1114,16 +1046,16 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 401:
+/***/ 407:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var AppDispatcher = __webpack_require__(388);
-	var EventEmitter = __webpack_require__(392).EventEmitter;
-	var AppConstants = __webpack_require__(393);
-	var BlogConstants = __webpack_require__(402);
-	var _ = __webpack_require__(395);
+	var AppDispatcher = __webpack_require__(289);
+	var EventEmitter = __webpack_require__(293).EventEmitter;
+	var AppConstants = __webpack_require__(294);
+	var BlogConstants = __webpack_require__(408);
+	var _ = __webpack_require__(296);
 
 	var _blogs = [];
 	var _currentBlog = {};
@@ -1205,12 +1137,12 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 402:
+/***/ 408:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var keyMirror = __webpack_require__(394);
+	var keyMirror = __webpack_require__(295);
 
 	module.exports = {
 
@@ -1231,15 +1163,15 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 403:
+/***/ 409:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var AppDispatcher = __webpack_require__(388);
-	var AppConstants = __webpack_require__(393);
-	var BlogConstants = __webpack_require__(402);
-	var $ = __webpack_require__(397);
+	var AppDispatcher = __webpack_require__(289);
+	var AppConstants = __webpack_require__(294);
+	var BlogConstants = __webpack_require__(408);
+	var $ = __webpack_require__(402);
 
 	var BlogActions = {
 
@@ -1350,25 +1282,25 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 404:
+/***/ 410:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(2);
+	var React = __webpack_require__(3);
 
-	var _require = __webpack_require__(269);
+	var _require = __webpack_require__(297);
 
 	var ListItem = _require.ListItem;
 	var Styles = _require.Styles;
 	var Avatar = _require.Avatar;
 
-	var BlogActions = __webpack_require__(403);
+	var BlogActions = __webpack_require__(409);
 	var Colors = Styles.Colors;
 	var Spacing = Styles.Spacing;
 	var Typography = Styles.Typography;
 
-	var history = __webpack_require__(211);
+	var history = __webpack_require__(212);
 
 	var BlogRow = React.createClass({
 	    displayName: 'BlogRow',
@@ -1415,43 +1347,47 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 405:
+/***/ 411:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(2);
+	var _Object$keys = __webpack_require__(412)['default'];
 
-	var _require = __webpack_require__(160);
+	var React = __webpack_require__(3);
+
+	var _require = __webpack_require__(161);
 
 	var Link = _require.Link;
 
-	var FullWidthSection = __webpack_require__(268);
-	var BlogStore = __webpack_require__(401);
-	var BlogActions = __webpack_require__(403);
+	var FullWidthSection = __webpack_require__(405);
+	var BlogStore = __webpack_require__(407);
+	var BlogActions = __webpack_require__(409);
 
-	var _require2 = __webpack_require__(269);
+	var _require2 = __webpack_require__(297);
 
 	var List = _require2.List;
 	var ListItem = _require2.ListItem;
 	var Paper = _require2.Paper;
 	var RaisedButton = _require2.RaisedButton;
 
-	var AppConstants = __webpack_require__(393);
-	var BlogConstants = __webpack_require__(402);
-	var history = __webpack_require__(211);
+	var AppConstants = __webpack_require__(294);
+	var BlogConstants = __webpack_require__(408);
+	var history = __webpack_require__(212);
 
 	var Blog = React.createClass({
 	    displayName: 'Blog',
 
-	    componentWillMount: function componentWillMount() {
+	    componentDidMount: function componentDidMount() {
 	        BlogStore.addChangeListener(this._receiveBlogPosts, BlogConstants.ActionTypes.GET_BLOG_POSTS);
 	        BlogActions.getBlogPosts(this.props.params.blogPermaLink);
-
-	        if (Object.keys(BlogStore.getCurrentBlog()).length === 0) {
-	            console.log("Current blog empty, fetching");
+	        if (_Object$keys(BlogStore.getCurrentBlog()).length === 0) {
 	            BlogStore.addChangeListener(this._receiveCurrentBlog, BlogConstants.ActionTypes.GET_CURRENT_BLOG);
 	            BlogActions.getCurrentBlog(this.props.params.blogPermaLink);
+	        } else {
+	            this.setState({
+	                currentBlog: BlogStore.getCurrentBlog()
+	            });
 	        }
 	    },
 
@@ -1463,21 +1399,18 @@ webpackJsonp([0],{
 	    },
 
 	    _receiveBlogPosts: function _receiveBlogPosts() {
-	        console.log("Receive Blog Posts");
 	        this.setState({
 	            blogPosts: BlogStore.getBlogPosts()
 	        });
 	    },
 
 	    _receiveCurrentBlog: function _receiveCurrentBlog() {
-	        console.log("Receive current blog", BlogStore.getCurrentBlog());
 	        this.setState({
 	            currentBlog: BlogStore.getCurrentBlog()
 	        });
 	    },
 
 	    _routeToPost: function _routeToPost(post) {
-	        console.log("routeToPost", post);
 	        BlogActions.setCurrentBlogPost(post);
 	        history.replaceState(null, '/blogs/' + this.state.currentBlog.BLOG_PERMA_LINK + '/' + post.BLOG_POST_PERMA_LINK);
 	    },
@@ -1589,29 +1522,215 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 406:
+/***/ 412:
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(413), __esModule: true };
+
+/***/ },
+
+/***/ 413:
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(414);
+	module.exports = __webpack_require__(420).Object.keys;
+
+/***/ },
+
+/***/ 414:
+/***/ function(module, exports, __webpack_require__) {
+
+	// 19.1.2.14 Object.keys(O)
+	var toObject = __webpack_require__(415);
+
+	__webpack_require__(417)('keys', function($keys){
+	  return function keys(it){
+	    return $keys(toObject(it));
+	  };
+	});
+
+/***/ },
+
+/***/ 415:
+/***/ function(module, exports, __webpack_require__) {
+
+	// 7.1.13 ToObject(argument)
+	var defined = __webpack_require__(416);
+	module.exports = function(it){
+	  return Object(defined(it));
+	};
+
+/***/ },
+
+/***/ 416:
+/***/ function(module, exports) {
+
+	// 7.2.1 RequireObjectCoercible(argument)
+	module.exports = function(it){
+	  if(it == undefined)throw TypeError("Can't call method on  " + it);
+	  return it;
+	};
+
+/***/ },
+
+/***/ 417:
+/***/ function(module, exports, __webpack_require__) {
+
+	// most Object methods by ES6 should accept primitives
+	var $export = __webpack_require__(418)
+	  , core    = __webpack_require__(420)
+	  , fails   = __webpack_require__(423);
+	module.exports = function(KEY, exec){
+	  var fn  = (core.Object || {})[KEY] || Object[KEY]
+	    , exp = {};
+	  exp[KEY] = exec(fn);
+	  $export($export.S + $export.F * fails(function(){ fn(1); }), 'Object', exp);
+	};
+
+/***/ },
+
+/***/ 418:
+/***/ function(module, exports, __webpack_require__) {
+
+	var global    = __webpack_require__(419)
+	  , core      = __webpack_require__(420)
+	  , ctx       = __webpack_require__(421)
+	  , PROTOTYPE = 'prototype';
+
+	var $export = function(type, name, source){
+	  var IS_FORCED = type & $export.F
+	    , IS_GLOBAL = type & $export.G
+	    , IS_STATIC = type & $export.S
+	    , IS_PROTO  = type & $export.P
+	    , IS_BIND   = type & $export.B
+	    , IS_WRAP   = type & $export.W
+	    , exports   = IS_GLOBAL ? core : core[name] || (core[name] = {})
+	    , target    = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE]
+	    , key, own, out;
+	  if(IS_GLOBAL)source = name;
+	  for(key in source){
+	    // contains in native
+	    own = !IS_FORCED && target && key in target;
+	    if(own && key in exports)continue;
+	    // export native or passed
+	    out = own ? target[key] : source[key];
+	    // prevent global pollution for namespaces
+	    exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
+	    // bind timers to global for call from export context
+	    : IS_BIND && own ? ctx(out, global)
+	    // wrap global constructors for prevent change them in library
+	    : IS_WRAP && target[key] == out ? (function(C){
+	      var F = function(param){
+	        return this instanceof C ? new C(param) : C(param);
+	      };
+	      F[PROTOTYPE] = C[PROTOTYPE];
+	      return F;
+	    // make static versions for prototype methods
+	    })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
+	    if(IS_PROTO)(exports[PROTOTYPE] || (exports[PROTOTYPE] = {}))[key] = out;
+	  }
+	};
+	// type bitmap
+	$export.F = 1;  // forced
+	$export.G = 2;  // global
+	$export.S = 4;  // static
+	$export.P = 8;  // proto
+	$export.B = 16; // bind
+	$export.W = 32; // wrap
+	module.exports = $export;
+
+/***/ },
+
+/***/ 419:
+/***/ function(module, exports) {
+
+	// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+	var global = module.exports = typeof window != 'undefined' && window.Math == Math
+	  ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
+	if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
+
+/***/ },
+
+/***/ 420:
+/***/ function(module, exports) {
+
+	var core = module.exports = {version: '1.2.6'};
+	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
+
+/***/ },
+
+/***/ 421:
+/***/ function(module, exports, __webpack_require__) {
+
+	// optional / simple context binding
+	var aFunction = __webpack_require__(422);
+	module.exports = function(fn, that, length){
+	  aFunction(fn);
+	  if(that === undefined)return fn;
+	  switch(length){
+	    case 1: return function(a){
+	      return fn.call(that, a);
+	    };
+	    case 2: return function(a, b){
+	      return fn.call(that, a, b);
+	    };
+	    case 3: return function(a, b, c){
+	      return fn.call(that, a, b, c);
+	    };
+	  }
+	  return function(/* ...args */){
+	    return fn.apply(that, arguments);
+	  };
+	};
+
+/***/ },
+
+/***/ 422:
+/***/ function(module, exports) {
+
+	module.exports = function(it){
+	  if(typeof it != 'function')throw TypeError(it + ' is not a function!');
+	  return it;
+	};
+
+/***/ },
+
+/***/ 423:
+/***/ function(module, exports) {
+
+	module.exports = function(exec){
+	  try {
+	    return !!exec();
+	  } catch(e){
+	    return true;
+	  }
+	};
+
+/***/ },
+
+/***/ 424:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var React = __webpack_require__(2);
+	var React = __webpack_require__(3);
 
-	var _require = __webpack_require__(160);
+	var _require = __webpack_require__(161);
 
 	var Link = _require.Link;
 
-	var FullWidthSection = __webpack_require__(268);
-	var BlogStore = __webpack_require__(401);
-	var BlogActions = __webpack_require__(403);
+	var FullWidthSection = __webpack_require__(405);
+	var BlogStore = __webpack_require__(407);
+	var BlogActions = __webpack_require__(409);
 
-	var _require2 = __webpack_require__(269);
+	var _require2 = __webpack_require__(297);
 
 	var Paper = _require2.Paper;
 	var RaisedButton = _require2.RaisedButton;
 
-	var AppConstants = __webpack_require__(393);
-	var BlogConstants = __webpack_require__(402);
-	var marked = __webpack_require__(407);
+	var AppConstants = __webpack_require__(294);
+	var BlogConstants = __webpack_require__(408);
+	var marked = __webpack_require__(425);
 
 	var BlogPostView = React.createClass({
 	    displayName: 'BlogPostView',
@@ -1701,26 +1820,106 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 408:
+/***/ 426:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(3);
+	var TextField = __webpack_require__(300);
+	var Paper = __webpack_require__(268);
+	var RaisedButton = __webpack_require__(369);
+
+	var ContactActions = __webpack_require__(487);
+	var history = __webpack_require__(212);
+
+	var Contact = React.createClass({
+		displayName: 'Contact',
+
+		// Add validation.
+		onNameChange: function onNameChange() {},
+		onEmailChange: function onEmailChange() {},
+		onTextChange: function onTextChange() {},
+		onSubmit: function onSubmit() {
+			ContactActions.submitContact(this.props.refs.name.getValue(), this.props.refs.email.getValue(), this.props.refs.text.getValue());
+		},
+		onHome: function onHome() {
+			history.replaceState(null, '/');
+		},
+		render: function render() {
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(
+					'div',
+					{ className: 'header' },
+					React.createElement(
+						'h2',
+						{ className: 'headerContent' },
+						'Contact Me'
+					)
+				),
+				React.createElement(
+					'div',
+					{ className: 'contactRoot' },
+					React.createElement(
+						Paper,
+						{ className: 'contactPaper' },
+						React.createElement(
+							'div',
+							{ className: 'contactFormFields' },
+							React.createElement(
+								'div',
+								null,
+								React.createElement(TextField, { floatingLabelText: 'Name', ref: 'name' })
+							),
+							React.createElement(
+								'div',
+								null,
+								React.createElement(TextField, { floatingLabelText: 'Email', ref: 'email' })
+							),
+							React.createElement(
+								'div',
+								null,
+								React.createElement(TextField, { floatingLabelText: 'Text', ref: 'text' })
+							)
+						),
+						React.createElement(
+							'div',
+							{ className: 'contactFormButtons' },
+							React.createElement(RaisedButton, { label: 'Submit', secondary: true, onTouchTap: this.onSubmit }),
+							React.createElement(RaisedButton, { label: 'Home', primary: true, onTouchTap: this.onHome })
+						)
+					)
+				)
+			);
+		}
+	});
+
+	module.exports = Contact;
+
+/***/ },
+
+/***/ 427:
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
 
-/***/ 409:
+/***/ 428:
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function injectTapEventPlugin () {
-	  __webpack_require__(32).injection.injectEventPluginsByName({
-	    "TapEventPlugin":       __webpack_require__(410)
+	  __webpack_require__(33).injection.injectEventPluginsByName({
+	    "TapEventPlugin":       __webpack_require__(429)
 	  });
 	};
 
 
 /***/ },
 
-/***/ 410:
+/***/ 429:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1744,14 +1943,14 @@ webpackJsonp([0],{
 
 	"use strict";
 
-	var EventConstants = __webpack_require__(31);
-	var EventPluginUtils = __webpack_require__(34);
-	var EventPropagators = __webpack_require__(74);
-	var SyntheticUIEvent = __webpack_require__(88);
-	var TouchEventUtils = __webpack_require__(411);
-	var ViewportMetrics = __webpack_require__(39);
+	var EventConstants = __webpack_require__(32);
+	var EventPluginUtils = __webpack_require__(35);
+	var EventPropagators = __webpack_require__(75);
+	var SyntheticUIEvent = __webpack_require__(89);
+	var TouchEventUtils = __webpack_require__(430);
+	var ViewportMetrics = __webpack_require__(40);
 
-	var keyOf = __webpack_require__(412);
+	var keyOf = __webpack_require__(431);
 	var topLevelTypes = EventConstants.topLevelTypes;
 
 	var isStartish = EventPluginUtils.isStartish;
@@ -1896,7 +2095,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 411:
+/***/ 430:
 /***/ function(module, exports) {
 
 	/**
@@ -1945,7 +2144,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 412:
+/***/ 431:
 /***/ function(module, exports) {
 
 	/**
@@ -1983,6 +2182,63 @@ webpackJsonp([0],{
 	};
 
 	module.exports = keyOf;
+
+/***/ },
+
+/***/ 487:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var AppDispatcher = __webpack_require__(289);
+	var ContactConstants = __webpack_require__(488);
+	var $ = __webpack_require__(402);
+
+	var ContactActions = {
+
+		submitContact: function submitContact(name, email, text) {
+			$.ajax({
+				type: 'POST',
+				contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+				dataType: 'json',
+				url: '/app/components/contact/Contact.php',
+				data: {
+					name: name,
+					email: email,
+					text: text
+				},
+				error: function error(jqXHR, status, _error) {
+					//setTimeout(this.getBlogs, 10000); // try again every 10 seconds
+				},
+				success: function success(result, status, xhr) {
+					// add a listener to this to validate successful message.
+					AppDispatcher.handleAction({
+						type: ContactConstants.ActionTypes.SUBMIT_CONTACT,
+						json: result,
+						error: null
+					});
+				}
+			});
+		}
+	};
+
+	module.exports = ContactActions;
+
+/***/ },
+
+/***/ 488:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var keyMirror = __webpack_require__(295);
+
+	module.exports = {
+
+		ActionTypes: keyMirror({
+			SUBMIT_CONTACT: null
+		})
+	};
 
 /***/ }
 
