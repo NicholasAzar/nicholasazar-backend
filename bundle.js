@@ -35,10 +35,10 @@ webpackJsonp([0],{
 	var Blog = __webpack_require__(411);
 	var BlogPost = __webpack_require__(424);
 	var Contact = __webpack_require__(426);
-	__webpack_require__(427);
+	__webpack_require__(429);
 	window.React = _react2['default'];
 
-	var injectTapEventPlugin = __webpack_require__(428);
+	var injectTapEventPlugin = __webpack_require__(430);
 	injectTapEventPlugin();
 
 	_reactDom2['default'].render(_react2['default'].createElement(
@@ -1421,10 +1421,10 @@ webpackJsonp([0],{
 	            null,
 	            React.createElement(
 	                'div',
-	                { className: 'blogHeader' },
+	                { className: 'header' },
 	                React.createElement(
 	                    'h2',
-	                    { className: 'mainBlogHeader' },
+	                    { className: 'headerContent' },
 	                    BlogConstants.BLOG_HEADER
 	                )
 	            ),
@@ -1757,10 +1757,10 @@ webpackJsonp([0],{
 	            null,
 	            React.createElement(
 	                'div',
-	                { className: 'blogHeader' },
+	                { className: 'header' },
 	                React.createElement(
 	                    'h2',
-	                    { className: 'mainBlogHeader' },
+	                    { className: 'headerContent' },
 	                    BlogConstants.BLOG_HEADER
 	                )
 	            ),
@@ -1830,22 +1830,46 @@ webpackJsonp([0],{
 	var Paper = __webpack_require__(268);
 	var RaisedButton = __webpack_require__(369);
 
-	var ContactActions = __webpack_require__(487);
+	var ContactActions = __webpack_require__(427);
 	var history = __webpack_require__(212);
 
 	var Contact = React.createClass({
 		displayName: 'Contact',
 
-		// Add validation.
-		onNameChange: function onNameChange() {},
-		onEmailChange: function onEmailChange() {},
-		onTextChange: function onTextChange() {},
+		// Default values
+		getInitialState: function getInitialState() {
+			return {
+				name: '',
+				email: '',
+				text: ''
+			};
+		},
+
+		// TODO: Add validation.
+		onNameChange: function onNameChange(e) {
+			this.setState({
+				name: e.target.value
+			});
+		},
+		onEmailChange: function onEmailChange(e) {
+			this.setState({
+				email: e.target.value
+			});
+		},
+		onTextChange: function onTextChange(e) {
+			this.setState({
+				text: e.target.value
+			});
+		},
+
+		// Action buttons
 		onSubmit: function onSubmit() {
-			ContactActions.submitContact(this.props.refs.name.getValue(), this.props.refs.email.getValue(), this.props.refs.text.getValue());
+			ContactActions.submitContact(this.state.name, this.state.email, this.state.text);
 		},
 		onHome: function onHome() {
 			history.replaceState(null, '/');
 		},
+
 		render: function render() {
 			return React.createElement(
 				'div',
@@ -1871,17 +1895,22 @@ webpackJsonp([0],{
 							React.createElement(
 								'div',
 								null,
-								React.createElement(TextField, { floatingLabelText: 'Name', ref: 'name' })
+								React.createElement(TextField, { floatingLabelText: 'Name', value: this.state.name, onChange: this.onNameChange })
 							),
 							React.createElement(
 								'div',
 								null,
-								React.createElement(TextField, { floatingLabelText: 'Email', ref: 'email' })
+								React.createElement(TextField, { floatingLabelText: 'Email', value: this.state.email, onChange: this.onEmailChange })
 							),
 							React.createElement(
 								'div',
 								null,
-								React.createElement(TextField, { floatingLabelText: 'Text', ref: 'text' })
+								React.createElement(TextField, { floatingLabelText: 'Text',
+									value: this.state.text,
+									onChange: this.onTextChange,
+									ref: 'text',
+									multiLine: true,
+									rowsMax: 20 })
 							)
 						),
 						React.createElement(
@@ -1901,25 +1930,84 @@ webpackJsonp([0],{
 /***/ },
 
 /***/ 427:
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	// removed by extract-text-webpack-plugin
+	'use strict';
+
+	var AppDispatcher = __webpack_require__(289);
+	var ContactConstants = __webpack_require__(428);
+	var $ = __webpack_require__(402);
+
+	var ContactActions = {
+
+		submitContact: function submitContact(name, email, text) {
+			$.ajax({
+				type: 'POST',
+				contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+				dataType: 'json',
+				url: '/app/components/contact/Contact.php',
+				data: {
+					name: name,
+					email: email,
+					text: text
+				},
+				error: function error(jqXHR, status, _error) {
+					console.log("error contact", _error);
+					//setTimeout(this.getBlogs, 10000); // try again every 10 seconds
+				},
+				success: function success(result, status, xhr) {
+					console.log("success contact", result);
+					// add a listener to this to validate successful message.
+					AppDispatcher.handleAction({
+						type: ContactConstants.ActionTypes.SUBMIT_CONTACT,
+						json: result,
+						error: null
+					});
+				}
+			});
+		}
+	};
+
+	module.exports = ContactActions;
 
 /***/ },
 
 /***/ 428:
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	var keyMirror = __webpack_require__(295);
+
+	module.exports = {
+
+		ActionTypes: keyMirror({
+			SUBMIT_CONTACT: null
+		})
+	};
+
+/***/ },
+
+/***/ 429:
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+
+/***/ 430:
+/***/ function(module, exports, __webpack_require__) {
+
 	module.exports = function injectTapEventPlugin () {
 	  __webpack_require__(33).injection.injectEventPluginsByName({
-	    "TapEventPlugin":       __webpack_require__(429)
+	    "TapEventPlugin":       __webpack_require__(431)
 	  });
 	};
 
 
 /***/ },
 
-/***/ 429:
+/***/ 431:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1947,10 +2035,10 @@ webpackJsonp([0],{
 	var EventPluginUtils = __webpack_require__(35);
 	var EventPropagators = __webpack_require__(75);
 	var SyntheticUIEvent = __webpack_require__(89);
-	var TouchEventUtils = __webpack_require__(430);
+	var TouchEventUtils = __webpack_require__(432);
 	var ViewportMetrics = __webpack_require__(40);
 
-	var keyOf = __webpack_require__(431);
+	var keyOf = __webpack_require__(433);
 	var topLevelTypes = EventConstants.topLevelTypes;
 
 	var isStartish = EventPluginUtils.isStartish;
@@ -2095,7 +2183,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 430:
+/***/ 432:
 /***/ function(module, exports) {
 
 	/**
@@ -2144,7 +2232,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 431:
+/***/ 433:
 /***/ function(module, exports) {
 
 	/**
@@ -2182,63 +2270,6 @@ webpackJsonp([0],{
 	};
 
 	module.exports = keyOf;
-
-/***/ },
-
-/***/ 487:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var AppDispatcher = __webpack_require__(289);
-	var ContactConstants = __webpack_require__(488);
-	var $ = __webpack_require__(402);
-
-	var ContactActions = {
-
-		submitContact: function submitContact(name, email, text) {
-			$.ajax({
-				type: 'POST',
-				contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-				dataType: 'json',
-				url: '/app/components/contact/Contact.php',
-				data: {
-					name: name,
-					email: email,
-					text: text
-				},
-				error: function error(jqXHR, status, _error) {
-					//setTimeout(this.getBlogs, 10000); // try again every 10 seconds
-				},
-				success: function success(result, status, xhr) {
-					// add a listener to this to validate successful message.
-					AppDispatcher.handleAction({
-						type: ContactConstants.ActionTypes.SUBMIT_CONTACT,
-						json: result,
-						error: null
-					});
-				}
-			});
-		}
-	};
-
-	module.exports = ContactActions;
-
-/***/ },
-
-/***/ 488:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var keyMirror = __webpack_require__(295);
-
-	module.exports = {
-
-		ActionTypes: keyMirror({
-			SUBMIT_CONTACT: null
-		})
-	};
 
 /***/ }
 
